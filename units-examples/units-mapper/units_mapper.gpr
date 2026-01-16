@@ -1,0 +1,27 @@
+with "../../units.gpr";
+with "../../units-gtk.gpr";
+
+project Units_Mapper is
+
+   for Source_Files use ("units_mapper.adb");
+   for Main use ("units_mapper.adb");
+   for Object_Dir use Units.Object_Dir_Path;
+
+   package Compiler is
+      for Default_Switches ("ada") use Units.GTK.Compiler'Default_Switches ("ada");
+   end Compiler;
+
+   package Binder is
+      for Default_Switches ("ada") use Units.GTK.Binder'Default_Switches ("ada");
+   end Binder;
+
+   package Builder is
+      for Default_Switches ("ada") use Units.GTK.Builder'Default_Switches ("ada");
+   end Builder;
+
+   package Linker is
+      for Default_Switches ("ada") use Units.GTK.Linker'Default_Switches ("ada");
+   end Linker;
+
+end Units_Mapper;
+

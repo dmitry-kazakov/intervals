@@ -1,0 +1,19 @@
+with "../../../units.gpr";
+
+project Units_Converter is
+
+   for Languages use ("Ada", "Winres");
+   for Source_Dirs use (".");
+   for Source_Files use ("units_converter.adb", "units_converter.rc");
+   for Main use ("units_converter.adb");
+   for Object_Dir use Units.Object_Dir_Path;
+ 
+   package Naming is
+      for Body_Suffix ("WinRes") use ".rc";
+   end Naming;
+
+   package Linker is
+      for Default_Switches ("ada") use ("-lcomctl32", "-mwindows");
+   end Linker;
+
+end Units_Converter;

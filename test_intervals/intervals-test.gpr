@@ -1,0 +1,15 @@
+with "../intervals.gpr";
+
+project Intervals.Test is
+
+   for Source_Dirs use (".");
+   for Source_Files use ("test_float_intervals.adb", "test_integer_intervals.adb");
+   for Main use ("test_float_intervals.adb", "test_integer_intervals.adb");
+   for Object_Dir use Intervals.Object_Dir_Path;
+
+   package Compiler renames Intervals.Compiler;
+   package Binder   renames Intervals.Binder;
+   package Builder  renames Intervals.Builder;
+   package Linker   renames Intervals.Linker;
+
+end Intervals.Test;

@@ -1,0 +1,29 @@
+with "units.gpr";
+with "gtkada_contributions.gpr";
+
+Project Units.GTK is
+
+   for Source_Dirs use (".");
+   for Source_Files use
+       ( "gtk-float_measures_cell_renderer.ads",
+         "gtk-float_measures_dialogs.ads",
+         "gtk-float_measures_edit.ads",
+         "gtk-float_measures_entry.ads",
+         "measures_gtk_edit-dialogs.adb",
+         "measures_gtk_edit-dialogs.ads",
+         "measures_gtk_edit-gentry.adb",
+         "measures_gtk_edit-gentry.ads",
+         "measures_gtk_edit-gentry-cell_renderer.adb",
+         "measures_gtk_edit-gentry-cell_renderer.ads",
+         "measures_gtk_edit.adb",
+         "measures_gtk_edit.ads"
+      );
+
+   for Object_Dir use Units.Object_Dir_Path;
+ 
+   package Compiler renames Gtkada_Contributions.Compiler;
+   package Binder   renames Gtkada_Contributions.Binder;
+   package Builder  renames Gtkada_Contributions.Builder;
+   package Linker   renames Gtkada_Contributions.Linker;
+
+end Units.GTK;

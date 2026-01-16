@@ -1,0 +1,1248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML lang="en">
+<HEAD>
+<link REL="SHORTCUT ICON" href="http://www.dmitry-kazakov.de/favicon.ico">
+<TITLE>Interval arithmetic</TITLE>
+<meta http-equiv="Content-Style-Type" content="text/css">
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<META name="keywords" content="interval, arithmetic, computation, dimensioned interval, interval arithmetic, tri-state logic, units, measurement units, SI, Ada, Ada 95">
+<META name="Author" content="Dmitry Kazakov">
+<META name="Description" content="Interval arithmetic for Ada">
+</HEAD>
+<BODY bgcolor="#FFFFFF" link="#0000FF" vlink="#800080">
+<P align="center">
+<BIG><BIG><b><BIG>INTERVAL ARITHMETIC</BIG><br>
+FOR ADA</b></BIG><BR>
+<EM>version 1.13</EM><BR>
+by Dmitry A. Kazakov</BIG><BR>
+(<A HREF="mailto:mailbox@dmitry-kazakov.de">mailbox@dmitry-kazakov.de</A>)<br>
+<a href="http://www.dmitry-kazakov.de"><img border="0" src="home.jpg" alt="[Home]" width="40" height="40"></a></p>
+<P>
+This library is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later 
+version. This library is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+FITNESS FOR A PARTICULAR PURPOSE. See the
+<a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a> 
+for more details. You should have received a copy of the GNU General Public 
+License along with this library; if not, write to the Free Software Foundation, 
+Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.</P>
+<P>
+As a special exception, if other files instantiate generics from this unit, or 
+you link this unit with other files to produce an executable, this unit does not 
+by itself cause the resulting executable to be covered by the GNU General Public 
+License. This exception does not however invalidate any other reasons why the 
+executable file might be covered by the GNU Public License.<br>
+</P>
+<HR>
+<P><u><b>Related on-line resources</b></u>:
+<ul>
+  <li>The interval computation web site: <a href="http://www.cs.utep.edu/interval-comp/main.html">http://www.cs.utep.edu/interval-comp/main.html</a>;</li>
+  <li>Fuzzy numbers based on intervals: <a href="http://www.dmitry-kazakov.de/ada/fuzzy.htm#fuzzy_numbers">http://www.dmitry-kazakov.de/ada/fuzzy.htm#fuzzy_numbers</a>.</li>
+</ul>
+<table border="0" cellspacing="0" cellpadding="0" style="border-top-width: 0px">
+	<tr>
+		<td style="border-top-style: none; border-top-width: medium" colspan="4">&nbsp;</td>
+		<td style="border-top-style: none; border-top-width: medium" align="right">
+		&nbsp;</td>
+		<td>&nbsp;</td>
+		<td align="center" colspan="2">ARM</td>
+		<td align="center" colspan="2">Intel</td>
+	</tr>
+	<tr>
+		<td style="border-top-style: none; border-top-width: medium" colspan="4"><b>Download Interval Arithmetic for Ada</b></td>
+		<td style="border-top-style: none; border-top-width: medium" align="right">
+		<b>Platform:</b></td>
+		<td>&nbsp;</td>
+		<td align="center">64-</td>
+		<td align="center">32-</td>
+		<td align="center">64-</td>
+		<td align="center">32bit</td>
+	</tr>
+	<tr>
+		<td style="border-top-style: solid; border-top-width: 1px">Fedora packages	</td>
+		<td style="border-top-style: solid; border-top-width: 1px" align="center">	<img border="0" src="fedora-logo.jpg" width="16" height="16" alt="Fedora"></td>
+		<td style="border-top-style: solid; border-top-width: 1px">&nbsp;</td>
+		<td style="border-top-style: solid; border-top-width: 1px">precompiled and packaged using RPM</td>
+		<td style="border-top-style: solid; border-top-width: 1px">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td align="right">
+		<a href="http://www.dmitry-kazakov.de/distributions/intervals_fedora_aarch64.htm">
+		<img src="in.jpg" align=middle alt="[Download page]" width="29" height="29"></a></td>
+		<td align="right">
+		<a href="http://www.dmitry-kazakov.de/distributions/intervals_fedora_armv7hl.htm">
+		<img src="in.jpg" align=middle alt="[Download page]" width="29" height="29"></a></td>
+		<td>
+		<a href="http://www.dmitry-kazakov.de/distributions/intervals_fedora_x86_64.htm">
+		<img src="in.jpg" align=middle alt="[Download page]" width="29" height="29"></a></td>
+		<td>
+		<a href="http://www.dmitry-kazakov.de/distributions/intervals_fedora_i686.htm">
+		<img src="in.jpg" align=middle alt="[Download page]" width="29" height="29"></a></td>
+	</tr>
+	<tr>
+		<td style="border-top-style: solid; border-top-width: 1px">CentOS packages </td>
+		<td style="border-top-style: solid; border-top-width: 1px" align="center"> <img border="0" src="centos-logo.jpg" width="16" height="16" alt="CentOS"></td>
+		<td style="border-top-style: solid; border-top-width: 1px">&nbsp;</td>
+		<td style="border-top-style: solid; border-top-width: 1px">precompiled and packaged using RPM</td>
+		<td style="border-top-style: solid; border-top-width: 1px">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td align="right">&nbsp;</td>
+		<td align="right">&nbsp;</td>
+		<td><a href="http://www.dmitry-kazakov.de/distributions/centos/intervals_centos_x86_64.htm"><img src="in.jpg" align=middle alt="[Download page]" width="29" height="29"></a></td>
+		<td><a href="http://www.dmitry-kazakov.de/distributions/centos/intervals_centos_i686.htm"><img src="in.jpg" align=middle alt="[Download page]" width="29" height="29"></a></td>
+	</tr>
+	<tr>
+		<td style="border-top-style: solid; border-top-width: 1px; ">Debian packages </td>
+		<td style="border-top-style: solid; border-top-width: 1px; " align="center">	<img border="0" src="debian-logo.jpg" width="16" height="16" alt="Debian"></td>
+		<td style="border-top-style: solid; border-top-width: 1px; ">&nbsp;</td>
+		<td style="border-top-style: solid; border-top-width: 1px; " colspan="2">precompiled and packaged for dpkg</td>
+		<td>&nbsp;</td>
+		<td align="right"><a href="http://www.dmitry-kazakov.de/distributions/intervals_debian_aarch64.htm"><img src="in.jpg" align=middle alt="[Download page]" width="29" height="29"></a></td>
+		<td align="right"><a href="http://www.dmitry-kazakov.de/distributions/intervals_debian_armhf.htm"><img src="in.jpg" align=middle alt="[Download page]" width="29" height="29"></a></td>
+		<td><a href="http://www.dmitry-kazakov.de/distributions/intervals_debian_x86_64.htm"><img src="in.jpg" align=middle alt="[Download page]" width="29" height="29"></a></td>
+		<td><a href="http://www.dmitry-kazakov.de/distributions/intervals_debian_i686.htm"><img src="in.jpg" align=middle alt="[Download page]" width="29" height="29"></a></td>
+	</tr>
+	<tr>
+		<td style="border-top-style: solid; border-top-width: 1px; border-bottom-style: solid; border-bottom-width: 1px">Ubuntu packages </td>
+		<td style="border-top-style: solid; border-top-width: 1px; border-bottom-style: solid; border-bottom-width: 1px" align="center"> <img border="0" src="ubuntu-logo.jpg" width="16" height="16" alt="Ubuntu"></td>
+		<td style="border-top-style: solid; border-top-width: 1px; border-bottom-style: solid; border-bottom-width: 1px">&nbsp;&nbsp;&nbsp;&nbsp; </td>
+		<td style="border-top-style: solid; border-top-width: 1px; border-bottom-style: solid; border-bottom-width: 1px" colspan="2">precompiled and packaged for dpkg</td>
+		<td>&nbsp;</td>
+		<td align="right"><a href="http://www.dmitry-kazakov.de/distributions/ubuntu/intervals_ubuntu_aarch64.htm"><img src="in.jpg" align=middle alt="[Download page]" width="29" height="29"></a></td>
+		<td align="right"><a href="http://www.dmitry-kazakov.de/distributions/ubuntu/intervals_ubuntu_armhf.htm"><img src="in.jpg" align=middle alt="[Download page]" width="29" height="29"></a></td>
+		<td><a href="http://www.dmitry-kazakov.de/distributions/ubuntu/intervals_ubuntu_x86_64.htm"><img src="in.jpg" align=middle alt="[Download page]" width="29" height="29"></a></td>
+		<td><a href="http://www.dmitry-kazakov.de/distributions/ubuntu/intervals_ubuntu_i686.htm"><img src="in.jpg" align=middle alt="[Download page]" width="29" height="29"></a></td>
+	</tr>
+	<tr>
+		<td style="border-bottom-style: solid; border-bottom-width: 1px" colspan="2">Source distribution (any platform)</td>
+		<td style="border-bottom-style: solid; border-bottom-width: 1px">&nbsp;</td>
+		<td style="border-bottom-style: solid; border-bottom-width: 1px" colspan="2">
+		<a href="intervals_1_13.tgz">intervals_1_13.tgz</a>
+		(<b>tar</b> + <b>gzip</b>, Windows users may use WinZip)</td>
+		<td>&nbsp;</td>
+		<td align="center" colspan="4">
+		<a href="intervals_1_13.tgz"><img src="download.jpg" align=middle alt="[Download]" width="29" height="29"></a></td>
+	</tr>
+</table>
+<br>
+See also the <a href="#changes_log">changes log</a>.<hr>
+<P align="right">
+<A name="1"></A><A href="#6"><IMG src="index.gif" alt="[TOC]" width="29"
+    height="29"></A><A href="#1.1"><IMG src="next.gif" alt="[Next]" width="29"
+    height="29"></A>
+<P>Interval computations provide an alternative to traditional numeric 
+computations. The fundamental difference is that interval computations trade 
+result precision for accuracy, while the traditional floating-point computations 
+do accuracy for precision. That is - the result of a traditional floating-point operation has 
+the precision of arguments. The rounding errors are accumulated as accuracy loss. 
+Differently to this the 
+result of an interval operation suffers no accuracy loss, in the sense that the mathematical&nbsp; 
+outcome of the operation is contained by the result interval. Rounding errors in 
+interval operations are accumulated as the 
+interval width, i.e. as precision loss.<P>This fundamental property of interval 
+operations 
+yields the <i>extension principle</i> by which numeric operations are extended 
+to the interval ones:<P>Let <i>f</i> be a numeric operation of N arguments: <i>f</i>(<i>x</i><sub>1</sub>,<i> x</i><sub>2</sub>, ..,<i> x</i><sub>N</sub>). 
+Then the corresponding interval operation <i>F</i>(<i>I</i><sub>1</sub>,<i> I</i><sub>2</sub>, ..,<i> 
+I</i><sub>N</sub>) is defined as<blockquote>
+	<P> <i>F</i>(<i>I</i><sub>1</sub>,<i> I</i><sub>2</sub>, ..,<i> I</i><sub>N</sub>)=[<i>l</i>,<i> 
+	u</i>],&nbsp; where<table border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<td><i>l</i></td>
+			<td>&nbsp;</td>
+			<td>=</td>
+			<td>&nbsp;</td>
+			<td>Inf (<i>f</i>(<i>y</i><sub>1</sub>,<i> y</i><sub>2</sub>, ..,<i> 
+			y</i><sub>N</sub>))</td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp; </td>
+			<td><i>u</i></td>
+			<td>&nbsp;</td>
+			<td><i>=</i></td>
+			<td>&nbsp;</td>
+			<td>Sup (<i>f</i>(<i>y</i><sub>1</sub>,<i> y</i><sub>2</sub>, ..,<i> 
+			y</i><sub>N</sub>))</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td><i>y<sub>i</sub></i>&isin;<i>I<sub>i</sub></i>, <i>i=</i>1<i>..</i>N</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td><i>y<sub>i</sub></i>&isin;<i>I<sub>i</sub></i>, <i>i=</i>1<i>..</i>N</td>
+		</tr>
+		</table>
+</blockquote>
+<P>For example consider the operation +. <i>I</i><sub>1</sub>=[<i>a</i>,&nbsp;<i>b</i>],
+<i>I</i><sub>2</sub>=[<i>c</i>,&nbsp;<i>d</i>]. + is monotonically ascending, thus Inf is <i>a</i>+<i>c</i> and Sup 
+is <i>b</i>+<i>d</i> and so [<i>a</i>,&nbsp;<i>b</i>]+[<i>c</i>,&nbsp;<i>d</i>]=[<i>a</i>+<i>c</i>,&nbsp;<i>b</i>+<i>d</i>].<P>
+Any combination of interval operations maintain the property, but changing order 
+of operations or splitting operations into smaller ones may change the precision 
+of the result (the result interval width). E.g. <i>x</i><sup>2</sup> is not 
+necessarily equal to <i>x</i>*<i>x</i>, still both contain the exact outcome.<H2>1. Types and operations</H2><P>The packages define a
+logical and interval types. The interval types are obtained through
+instantiation of the corresponding generic packages. Interval and numeric types
+can be mixed where the result has mathematical sense.<P align="right">
+<A name="1.1"></A><A href="#1"><IMG src="prev.gif" alt="[Back]" width="29"
+    height="29"></A><A href="#6"><IMG src="index.gif" alt="[TOC]" width="29"
+    height="29"></A><A href="#1.2"><IMG src="next.gif" alt="[Next]" width="29"
+    height="29"></A>
+</p>
+<H3>1.1. Tri-state logic</H3>
+<p><a name="Logical"></a><a name="Intervals"></a>The package <a href="#Intervals">Intervals</a>
+serves as a root package. It also provides tri-state
+logic necessary to define relational operations on intervals. The type <a href="#Logical">Logical</a>
+is defined as:
+<blockquote>
+  <p><tt><font color="#0000FF"> type</font>
+  Logical <font color="#0000FF"> is</font>&nbsp;(False, True, Uncertain);</tt></p>
+</blockquote>
+<P>
+The following operations are defined for <a href="#Logical">Logical</a>:
+<blockquote>
+<p>
+<tt>
+<font COLOR="#0000ff">function </font>&quot;<font color="#FF0000">not</font>&quot;
+(<b>Left</b> : Logical)
+<font COLOR="#0000ff">return </font>Logical;<br>
+<font COLOR="#0000ff">function </font>&quot;<font color="#FF0000">and</font>&quot;
+(<b>Left</b>, <b>Right</b> : Logical)
+<font COLOR="#0000ff">return </font> Logical;<br>
+&nbsp;&nbsp;&nbsp;<font COLOR="#0000ff">function </font>&quot;<font color="#FF0000">and</font>&quot;
+(<b>Left</b> : Logical; <b>Right</b> : Boolean)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font COLOR="#0000ff">return </font>Logical;<br>
+&nbsp;&nbsp;&nbsp;<font COLOR="#0000ff">function </font>&quot;<font color="#FF0000">and</font>&quot;
+(<b>Left</b> : Boolean; <b>Right</b> : Logical)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font COLOR="#0000ff">return </font>Logical;<br>
+<font COLOR="#0000ff">function </font>&quot;<font color="#FF0000">or</font>&quot;
+(<b>Left</b>, <b>Right</b> : Logical) <font COLOR="#0000ff">return </font>Logical;<br>
+&nbsp;&nbsp;&nbsp;<font COLOR="#0000ff">function </font>&quot;<font color="#FF0000">or</font>&quot;
+(<b>Left</b> : Logical; <b>Right</b> : Boolean)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font COLOR="#0000ff">return </font>Logical;<br>
+&nbsp;&nbsp;&nbsp;<font COLOR="#0000ff">function </font>&quot;<font color="#FF0000">or</font>&quot;
+(<b>Left</b> : Boolean; <b>Right</b> : Logical)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font COLOR="#0000ff">return </font>Logical;<br>
+<font COLOR="#0000ff">function </font>&quot;<font color="#FF0000">xor</font>&quot;
+(<b>Left</b>, <b>Right</b> : Logical) <font COLOR="#0000ff">return </font>Logical;<br>
+&nbsp;&nbsp;&nbsp;<font COLOR="#0000ff">function </font>&quot;<font color="#FF0000">xor</font>&quot;
+(<b>Left</b> : Logical; <b>Right</b> : Boolean)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font COLOR="#0000ff">return </font>Logical;<br>
+&nbsp;&nbsp;&nbsp;<font COLOR="#0000ff">function </font>&quot;<font color="#FF0000">xor</font>&quot;
+(<b>Left</b> : Boolean; <b>Right</b> : Logical)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font COLOR="#0000ff">return </font>Logical;</tt></p>
+</blockquote>
+<p>
+The following table summarizes the behaviour of three-state logical operations:
+</p>
+  <table border="5" cellpadding="3" cellspacing="0">
+    <tr>
+      <td bgcolor="#008080" align="center"><b><font color="#FFFFFF"><i>x</i></font></b></td>
+      <td bgcolor="#008080" align="center"><b><font color="#FFFFFF"><i>y</i></font></b></td>
+      <td align="center" bgcolor="#008080"><b><font color="#FFFFFF"><i>x
+        and y </i>(&amp;)</font></b></td>
+      <td bgcolor="#008080" align="center"><b><font color="#FFFFFF"><i>x
+        or y </i>(</font></b><font color="#FFFFFF"><b>&or;</b></font><b><font color="#FFFFFF">)</font></b></td>
+      <td bgcolor="#008080" align="center"><b><font color="#FFFFFF"><i>x
+        xor y</i></font></b></td>
+    </tr>
+    <tr>
+      <td align="center"><font color="#800000"><i>false</i></font> </td>
+      <td align="center"><font color="#800000"><i>false</i></font> </td>
+      <td align="center" bgcolor="#FFFF99"><font color="#800000"><i>false</i></font> </td>
+<td align="center" bgcolor="#FFFF99"><font color="#800000"><i>false</i></font> </td>
+<td align="center" bgcolor="#FFFF99"><font color="#800000"><i>false</i></font> </td>
+    </tr>
+    <tr>
+      <td align="center"><font color="#800000"><i>false</i></font> </td>
+      <td align="center"> <font color="#800000"><i>true</i></font> </td>
+      <td align="center" bgcolor="#FFFF99"><font color="#800000"><i>false</i></font> </td>
+      <td align="center" bgcolor="#FFFF99"><font color="#800000"><i>true</i></font> </td>
+      <td align="center" bgcolor="#FFFF99"><i>true</i> </td>
+    </tr>
+    <tr>
+      <td align="center"><font color="#800000"><i>false</i></font> </td>
+      <td align="center">uncertain</td>
+      <td align="center" bgcolor="#FFFF99"><i><font color="#800000">false</font></i> </td>
+      <td align="center" bgcolor="#FFFF99">uncertain</td>
+      <td align="center" bgcolor="#FFFF99">uncertain</td>
+    </tr>
+    <tr>
+      <td align="center"> <font color="#800000"><i>true</i></font> </td>
+      <td align="center"> <font color="#800000"><i>true</i></font> </td>
+      <td align="center" bgcolor="#FFFF99"><font color="#800000"><i>true</i></font> </td>
+      <td align="center" bgcolor="#FFFF99"><font color="#800000"><i>true</i></font> </td>
+      <td align="center" bgcolor="#FFFF99"><font color="#800000"><i>false</i></font> </td>
+    </tr>
+    <tr>
+      <td align="center"> <font color="#800000"><i>true</i></font> </td>
+      <td align="center">uncertain</td>
+      <td align="center" bgcolor="#FFFF99">uncertain</td>
+      <td align="center" bgcolor="#FFFF99"><font color="#800000"><i>true</i></font> </td>
+      <td align="center" bgcolor="#FFFF99">uncertain</td>
+    </tr>
+    <tr>
+      <td align="center">uncertain</td>
+      <td align="center">uncertain</td>
+      <td align="center" bgcolor="#FFFF99">uncertain</td>
+      <td align="center" bgcolor="#FFFF99">uncertain</td>
+      <td align="center" bgcolor="#FFFF99">uncertain</td>
+    </tr>
+  </table>
+<p>The following tables describe the operations in the form customary for the 
+papers on logic (uncertainty 
+is denoted as &#9524;):</p>
+<table border="0" cellspacing="0" cellpadding="3">
+	<tr>
+		<td align="center" style="border-right-style: solid; border-right-width: 1px; border-bottom-style: solid; border-bottom-width: 1px"><b><i>and</i></b></td>
+		<td align="center" style="border-bottom-style: solid; border-bottom-width: 1px">&nbsp;0&nbsp;</td>
+		<td align="center" style="border-bottom-style: solid; border-bottom-width: 1px">1</td>
+		<td align="center" style="border-bottom-style: solid; border-bottom-width: 1px">&#9524;</td>
+		<td align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td align="center" style="border-right-style: solid; border-right-width: 1px; border-bottom-style: solid; border-bottom-width: 1px"><b><i>or</i></b></td>
+		<td align="center" style="border-bottom-style: solid; border-bottom-width: 1px">&nbsp;0&nbsp;</td>
+		<td align="center" style="border-bottom-style: solid; border-bottom-width: 1px">&nbsp;1&nbsp;&nbsp; </td>
+		<td align="center" style="border-bottom-style: solid; border-bottom-width: 1px">&#9524;</td>
+		<td align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td align="center" style="border-right-style: solid; border-right-width: 1px; border-bottom-style: solid; border-bottom-width: 1px"><b><i>xor</i></b></td>
+		<td align="center" style="border-bottom-style: solid; border-bottom-width: 1px">&nbsp;0&nbsp;</td>
+		<td align="center" style="border-bottom-style: solid; border-bottom-width: 1px">1</td>
+		<td align="center" style="border-bottom-style: solid; border-bottom-width: 1px">&#9524;</td>
+		<td align="center" style="border-bottom-style: none; border-bottom-width: medium">&nbsp;&nbsp; </td>
+		<td align="center" style="border-right-style: solid; border-right-width: 1px; border-bottom-style: solid; border-bottom-width: 1px"><i><b>not</b></i></td>
+		<td align="center" style="border-left-style: solid; border-left-width: 1px; border-bottom-style: solid; border-bottom-width: 1px">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="center" style="border-right-style: solid; border-right-width: 1px">&nbsp;0&nbsp;</td>
+		<td align="center">&nbsp;0&nbsp;</td>
+		<td align="center">&nbsp;0&nbsp;</td>
+		<td align="center">&nbsp;0&nbsp;</td>
+		<td align="center">&nbsp;</td>
+		<td align="center" style="border-right-style: solid; border-right-width: 1px">&nbsp;0&nbsp;</td>
+		<td align="center">&nbsp;0&nbsp;</td>
+		<td align="center">1</td>
+		<td align="center"> &#9524;</td>
+		<td align="center">&nbsp;</td>
+		<td align="center" style="border-right-style: solid; border-right-width: 1px">&nbsp;0&nbsp;</td>
+		<td align="center">&nbsp;0&nbsp;</td>
+		<td align="center">1</td>
+		<td align="center">0</td>
+		<td align="center">&nbsp;</td>
+		<td align="center" style="border-right-style: solid; border-right-width: 1px">&nbsp;0&nbsp;</td>
+		<td align="center" style="border-left-style: solid; border-left-width: 1px">1</td>
+	</tr>
+	<tr>
+		<td align="center" style="border-right-style: solid; border-right-width: 1px">1</td>
+		<td align="center">&nbsp;0&nbsp;</td>
+		<td align="center">1</td>
+		<td align="center"> &#9524;</td>
+		<td align="center">&nbsp;</td>
+		<td align="center" style="border-right-style: solid; border-right-width: 1px">1</td>
+		<td align="center">1</td>
+		<td align="center">1</td>
+		<td align="center">1</td>
+		<td align="center">&nbsp;</td>
+		<td align="center" style="border-right-style: solid; border-right-width: 1px">1</td>
+		<td align="center">1</td>
+		<td align="center">&nbsp;0&nbsp;</td>
+		<td align="center">&#9524;</td>
+		<td align="center">&nbsp;</td>
+		<td align="center" style="border-right-style: solid; border-right-width: 1px">1</td>
+		<td align="center" style="border-left-style: solid; border-left-width: 1px">&nbsp;0&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="center" style="border-right-style: solid; border-right-width: 1px">&#9524;</td>
+		<td align="center">0</td>
+		<td align="center"> &#9524;</td>
+		<td align="center"> &#9524;</td>
+		<td align="center">&nbsp;</td>
+		<td align="center" style="border-right-style: solid; border-right-width: 1px">&#9524;</td>
+		<td align="center">&#9524;</td>
+		<td align="center">1</td>
+		<td align="center"> &#9524;</td>
+		<td align="center">&nbsp;</td>
+		<td align="center" style="border-right-style: solid; border-right-width: 1px">&#9524;</td>
+		<td align="center">0</td>
+		<td align="center"> &#9524;</td>
+		<td align="center"> &#9524;</td>
+		<td align="center">&nbsp;</td>
+		<td align="center" style="border-right-style: solid; border-right-width: 1px">&#9524;</td>
+		<td align="center" style="border-left-style: solid; border-left-width: 1px">&#9524;</td>
+	</tr>
+	</table>
+<BLOCKQUOTE>
+  <p>
+  <tt> <FONT color="#0000FF">function</FONT>
+  To_Logical (<B>Left</B> : Boolean)
+  <FONT color="#0000FF">return</FONT>   Logical;</tt></p>
+</BLOCKQUOTE>
+<P>
+This function converts the argument to the
+corresponding fuzzy logical value.
+<p align="right">
+  <A name="1.2"></A><A href="#1.1"><IMG src="prev.gif" alt="[Back]" width="29"
+      height="29"></A><A href="#6"><IMG
+      src="index.gif" alt="[TOC]" width="29" height="29"></A><a href="#2"><IMG src="next.gif" alt="[Next]" width="29" height="29"></a>
+</p>
+<H3>1.2. Interval arithmetic</H3>
+<P>Two generic child packages <a href="#Intervals.Integers">Integers</a> and <a href="#Intervals.Floats">Floats</a> provide interval arithmetic for integer and floating-point
+types:</p>
+<blockquote>
+  <P><tt><font color="#0000FF"><a name="Intervals.Integers"></a>generic<br>
+  &nbsp;&nbsp; type</font> Number<font color="#0000FF"> is range </font> &lt;&gt;;<br>
+  <font color="#0000FF">package</font> Intervals.Integers <font color="#0000FF"> is</font><br>
+  &nbsp;&nbsp; ...<br>
+  <font color="#0000FF"><a name="Intervals.Floats"></a>generic<br>
+  &nbsp;&nbsp; type</font> Number <font color="#0000FF"> is digits</font> &lt;&gt;;<br>
+  <font color="#0000FF">package</font> Intervals.Floats <font color="#0000FF"> is</font><br>
+  &nbsp;&nbsp; ...</tt></p>
+</blockquote>
+<P><a name="Intervals.Number"></a>The formal  parameter
+<b>Number</b> is the type used for the bounds. For <a href="#Intervals.Integers"> Intervals.Integers</a> it is an
+integer type. For <a href="#Intervals.Floats"> Intervals.Floats</a> it is a floating-point type. The type Interval
+is defined by the packages as:</p>
+<blockquote>
+  <tt> <font color="#0000FF">   type</font> 
+  Interval <font color="#0000FF"> is record<br>
+  &nbsp;&nbsp; </font>From : Number;<br>
+  &nbsp;&nbsp; To&nbsp;&nbsp; : Number;<br>
+  <FONT color="#0000FF">end record</FONT>;</tt></blockquote>
+<p>The conventional numeric operations are defined on intervals. Among two
+operands one is allowed to be of the type Number.:</p>
+<blockquote>
+<tt> <FONT color="#0000FF">function</FONT> "<font color="#FF0000">abs</font>" (<b>Left</b> : Interval) <FONT color="#0000FF">return</FONT> Interval;<FONT color="#0000FF"><br>
+function</FONT>  "<font color="#FF0000">+</font>"&nbsp;&nbsp; (<b>Left</b> : Interval) <FONT color="#0000FF">return</FONT> Interval;<br>
+<FONT color="#0000FF">function</FONT> "<font color="#FF0000">-</font>"&nbsp;&nbsp; (<b>Left</b> : Interval) <FONT color="#0000FF">return</FONT> Interval;<br>
+<FONT color="#0000FF">function</FONT>  &quot;<font color="#FF0000">**</font>&quot;&nbsp;
+(<B>Left</B> :
+Interval; <b>Right</b> : Natural)&nbsp;<FONT color="#0000FF">return</FONT> 
+Interval;<br>
+<br>
+<FONT color="#0000FF">function</FONT> "<font color="#FF0000">+</font>"
+(<B>Left</B>, <B>Right</B> : Interval) <FONT color="#0000FF">return</FONT>   Interval;<FONT color="#0000FF"><br>
+&nbsp;&nbsp; function</FONT> "<FONT color="#FF0000">+</FONT>" (<B>Left</B> : Interval; <B>Right</B> : Number) <FONT color="#0000FF">return </FONT>  Interval;<FONT color="#0000FF"><br>
+&nbsp;&nbsp; function</FONT> "<font color="#FF0000">+</font>" (<b>Left</b> : Number; <b>Right</b> : Interval) <FONT color="#0000FF">return</FONT> 
+ Interval;<FONT color="#0000FF"><br>
+<br>
+function</FONT> "<font color="#FF0000">-</font>" (<B>Left</B>, <B>Right</B> : Interval) <FONT color="#0000FF">return</FONT> Interval;<FONT color="#0000FF"><br>
+&nbsp;&nbsp; function</FONT> "<FONT color="#FF0000">-</FONT>" (<B>Left</B> : Interval; <B>Right</B> : Number) <FONT color="#0000FF">return </FONT> 
+Interval;<FONT color="#0000FF"><br>
+&nbsp;&nbsp; function</FONT> "<font color="#FF0000">-</font>" (<b>Left</b> : Number; <b>Right</b> : Interval) <FONT color="#0000FF">return </FONT> 
+Interval;<FONT color="#0000FF"><br>
+<br>
+function</FONT> "<font color="#FF0000">*</font>" (<B>Left</B>, <B>Right</B> : Interval) <FONT color="#0000FF">return</FONT>   Interval;<FONT color="#0000FF"><br>
+&nbsp;&nbsp; function</FONT> "<FONT color="#FF0000">*</FONT>" (<B>Left</B> : Interval; <B>Right</B> : Number) <FONT color="#0000FF">return </FONT> 
+Interval;<FONT color="#0000FF"><br>
+&nbsp;&nbsp; function</FONT> "<font color="#FF0000">*</font>" (<b>Left</b> : Number; <b>Right</b> : Interval) <FONT color="#0000FF">return </FONT>
+Interval;<FONT color="#0000FF"><br>
+<br>
+function</FONT>  &quot;<font color="#FF0000">/</font>&quot; (<B>Left</B>, <B>Right</B> 
+: Interval) <FONT color="#0000FF">return</FONT>  Interval;<FONT color="#0000FF"><br>
+&nbsp;&nbsp; function</FONT> "<FONT color="#FF0000">/</FONT>" (<B>Left</B> : Interval; <B>Right</B> : Number) <FONT color="#0000FF">return</FONT> 
+Interval;<FONT color="#0000FF"><br>
+&nbsp;&nbsp; function</FONT> "<font color="#FF0000">/</font>" (<b>Left</b> : Number; <b>Right</b> : Interval) <FONT color="#0000FF">return </FONT> 
+Interval;  </tt></blockquote>
+<P>The interval operations over arguments [<i>a</i>, <i>b</i>] and [<i>c</i>, <i>d</i>]
+are defined as follows:</p>
+<blockquote>
+  <table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <td>[<i>a</i>, <i>b</i>]</td>
+      <td align="center">&nbsp;+&nbsp;</td>
+      <td>[<i>c</i>, <i>d</i>]</td>
+      <td align="center">&nbsp;=&nbsp;</td>
+      <td>[<i>a</i>+<i>c</i>, <i>b</i>+<i>d</i>]</td>
+    </tr>
+    <tr>
+      <td>[<i>a</i>, <i>b</i>]</td>
+      <td align="center">-</td>
+      <td>[<i>c</i>, <i>d</i>]</td>
+      <td align="center">=</td>
+      <td>[<i>a</i>-<i>d</i>, <i>b</i>-<i>c</i>]</td>
+    </tr>
+    <tr>
+      <td>[<i>a</i>, <i>b</i>]</td>
+      <td align="center">·</td>
+      <td>[<i>c</i>, <i>d</i>]</td>
+      <td align="center">=</td>
+      <td>[<i>min</i> (<i>a</i>·<i>c</i>, <i>a</i>·<i>d</i>, <i>b</i>·<i>c</i>, <i>b</i>·<i>d</i>),
+        <i>max</i> (<i>a</i>·<i>c</i>, <i>a</i>·<i>d</i>, <i>b</i>·<i>c</i>, <i>b</i>·<i>d</i>)]</td>
+    </tr>
+    <tr>
+      <td>[<i>a</i>, <i>b</i>]</td>
+      <td align="center">/</td>
+      <td>[<i>c</i>, <i>d</i>]</td>
+      <td align="center">=</td>
+      <td>[<i>a</i>, <i>b</i>] · [1/<i>d</i>, 1/<i>c</i>], if [<i>c</i>, <i>d</i>]
+        does not contain 0</td>
+    </tr>
+  </table>
+</blockquote>
+<P>Exponentiation by a natural power [<i>a</i>, <i>b</i>]<i><sup>k</sup></i>:</p>
+<blockquote>
+  <table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <td colspan="5">if&nbsp;0&#8712;[<i>a</i>,&nbsp;<i>b</i>],&nbsp;then</td>
+      <td rowspan="11" valign="bottom">&nbsp;&nbsp;&nbsp;&nbsp;<p>Observe also that for intervals only [<i>a</i>, <i>b</i>]<sup>2</sup>&#8838;[<i>a</i>, <i>b</i>]·[<i>a</i>,&nbsp;<i>b</i>]
+        is true. For example [-1,&nbsp;2]·[-1,&nbsp;2]=[-2,&nbsp;4], but [-1,&nbsp;2]<sup>2</sup>=[0,&nbsp;4]. In
+        general case an independency analysis of the variables involved in an
+        interval expression&nbsp;might be required to&nbsp;improve accuracy of
+        multiplicative operations.&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+      <td>[<i>a</i>,&nbsp;<i>b</i>]</td>
+      <td valign="top"><sup>0</sup></td>
+      <td>&nbsp;=&nbsp;</td>
+      <td>[0,&nbsp;1]</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>[<i>a</i>,&nbsp;<i>b</i>]</td>
+      <td valign="top"><sup>2<i>n</i></sup></td>
+      <td>&nbsp;=&nbsp;</td>
+      <td>[0,&nbsp;<i>max</i>&nbsp;(<i>a</i><sup>2<i>n</i></sup>,&nbsp;<i>b</i><sup>2<i>n</i></sup>)]&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>[<i>a</i>,&nbsp;<i>b</i>]</td>
+      <td valign="top"><sup>2<i>n+</i>1</sup></td>
+      <td>&nbsp;=&nbsp;</td>
+      <td>[<i>a</i><sup>2<i>n+</i>1</sup>, <i>b</i><sup>2<i>n+</i>1</sup>]&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="5">if [<i>a</i>,&nbsp;<i>b</i>]&gt;0, then</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>[<i>a</i>,&nbsp;<i>b</i>]</td>
+      <td valign="top"><sup>0</sup></td>
+      <td>&nbsp;=&nbsp;</td>
+      <td>[1,&nbsp;1]</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>[<i>a</i>,&nbsp;<i>b</i>]</td>
+      <td valign="top"><sup><i>k</i>&gt;0</sup></td>
+      <td>&nbsp;=&nbsp;</td>
+      <td>[<i>a<sup>k</sup></i>,&nbsp;<i>b<sup>k</sup></i>]</td>
+    </tr>
+    <tr>
+      <td colspan="5">if [<i>a</i>,&nbsp;<i>b</i>]&lt;0, then</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>[<i>a</i>,&nbsp;<i>b</i>]</td>
+      <td valign="top"><sup>0</sup></td>
+      <td>&nbsp;=&nbsp;</td>
+      <td>[1,&nbsp;1]</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>[<i>a</i>,&nbsp;<i>b</i>]</td>
+      <td valign="top"><sup>2<i>n</i></sup></td>
+      <td>&nbsp;=&nbsp;</td>
+      <td>[<i>b</i><sup>2<i>n</i></sup>, <i>a</i><sup>2<i>n</i></sup>]</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>[<i>a</i>,&nbsp;<i>b</i>]</td>
+      <td valign="top"><sup>2<i>n+</i>1</sup></td>
+      <td>&nbsp;=&nbsp;</td>
+      <td>[<i>a</i><sup>2<i>n+</i>1</sup>,&nbsp;<i>b</i><sup>2<i>n+</i>1</sup>]&nbsp;</td>
+    </tr>
+  </table>
+</blockquote>
+<P><a name="Overflows"></a>For all operations over interval bounds no  overflow  checks
+are made explicitly.
+Constraint_Error is propagated only when a numeric operation on bounds raises
+it. That depends on the behavior of the type <a href="#Intervals.Number">Number</a>:
+<ul>
+  <li>If <a href="#Intervals.Number">Number</a> is an integer type, overflows
+    cause
+Constraint_Error, except the cases when this is explicitly suppressed by a compiler pragma or 
+	a switch;</li>
+  <li>If <a href="#Intervals.Number">Number</a> is a floating-point type, then
+    the value of the attribute <a href="#Intervals.Number">Number</a>'<i>Machine_Overflows</i>
+    indicates if Constraint_Error will propagate. See 
+	<a href="http://www.adaic.org/standards/05rm/html/RM-G-2-1.html">G.2.1. <i>Ada Reference
+    Manual</i></a>.</li>
+</ul>
+<p>The result of any inexact operation (an  interval) is defined to contain the exact
+mathematical result except the cases of overflows. For integer arithmetic, in which only  division is not precise,
+it means that for instance, [1,&nbsp;1]/2 = [0,&nbsp;1], while 1/2 is 0. Division to
+intervals containing zero raises Constraint_Error. Floating-point arithmetic emulates &uarr; and &darr; rounding.
+A discussion concerning implementation of interval arithmetic can be found in
+<i>Introduction to interval computation</i>, G.Alefeld, J.Herzberger; Academic Press, 1983.</p>
+<P>The relational operations defined on intervals are:
+<blockquote>
+  <p><tt>
+<FONT color="#0000FF">function</FONT> "<font color="#FF0000">&gt;</font>" (<B>Left</B>, <B>Right</B> : Interval) <FONT color="#0000FF">return</FONT>  
+ Logical;<FONT color="#0000FF"><br>
+&nbsp;&nbsp; function</FONT> "<FONT color="#FF0000">&gt;</FONT>" (<B>Left</B> : Interval; <B>Right</B> : Number) <FONT color="#0000FF">return</FONT> 
+ Logical;<FONT color="#0000FF"><br>
+&nbsp;&nbsp; function</FONT> "<font color="#FF0000">&gt;</font>" (<b>Left</b> : Number; <b>Right</b> : Interval) <FONT color="#0000FF">return</FONT> 
+ Logical;<FONT color="#0000FF"><br>
+<br>
+function</FONT> "<font color="#FF0000">&gt;=</font>" (<B>Left</B>, <B>Right</B> : Interval) <FONT color="#0000FF">return</FONT>  
+ Logical;<FONT color="#0000FF"><br>
+&nbsp;&nbsp; function</FONT> "<FONT color="#FF0000">&gt;=</FONT>" (<B>Left</B> : Interval; <B>Right</B> : Number) <FONT color="#0000FF">return</FONT> 
+ Logical;<FONT color="#0000FF"><br>
+&nbsp;&nbsp; function</FONT> "<font color="#FF0000">&gt;=</font>" (<b>Left</b> : Number; <b>Right</b> : Interval) <FONT color="#0000FF">return</FONT> 
+ Logical;<FONT color="#0000FF"><br>
+<br>
+function</FONT> "<font color="#FF0000">&lt;=</font>" (<B>Left</B>, <B>Right</B> : Interval) <FONT color="#0000FF">return</FONT>  
+ Logical;<FONT color="#0000FF"><br>
+&nbsp;&nbsp; function</FONT> "<FONT color="#FF0000">&lt;=</FONT>" (<B>Left</B> : Interval; <B>Right</B> : Number) <FONT color="#0000FF">return</FONT> 
+ Logical;<FONT color="#0000FF"><br>
+&nbsp;&nbsp; function</FONT> "<font color="#FF0000">&lt;=</font>" (<b>Left</b> : Number; <b>Right</b> : Interval) <FONT color="#0000FF">return</FONT> 
+ Logical;<FONT color="#0000FF"><br>
+<br>
+function</FONT> "<font color="#FF0000">&lt;</font>" (<B>Left</B>, <B>Right</B> : Interval) <FONT color="#0000FF">return</FONT>  
+ Logical;<FONT color="#0000FF"><br>
+&nbsp;&nbsp; function</FONT> "<FONT color="#FF0000">&lt;</FONT>" (<B>Left</B> : Interval; <B>Right</B> : Number) <FONT color="#0000FF">return</FONT> 
+ Logical;<FONT color="#0000FF"><br>
+&nbsp;&nbsp; function</FONT> "<font color="#FF0000">&lt;</font>" (<b>Left</b> : Number; <b>Right</b> : Interval) <FONT color="#0000FF">return</FONT> 
+ Logical;</tt></p>
+</blockquote>
+<p>Among two operands one is allowed to be of the type <a href="#Intervals.Number">Number</a>. Equality
+<tt>"<font color="#FF0000">=</font>"</tt> (and so inequality <tt>"<font color="#FF0000">/=</font>"</tt>)
+is implemented as in
+the set theory and so the predefined equality is used. An alternative definition ([<i>a</i>,&nbsp;<i>b</i>]=[<i>c</i>,&nbsp;<i>d</i>] 
+&#8660; &#8704;<i>x</i>&isin;[<i>a</i>,&nbsp;<i>b</i>] &#8704;<i>y</i>&isin;[<i>c</i>,&nbsp;<i>d</i>] <i>x</i>=<i>y</i>) would be rather useless. However other relational operators are implemented in exactly this sense,
+i.e. if @ is a relational operator defined on numbers, then:</p>
+<BLOCKQUOTE>
+<p>&forall;<i>x</i>&isin;[<i>a</i>, <i>b</i>] &forall;<i>y</i>&isin;[<i>c</i>, <i>d</i>] <i>x</i>@<i>y</i> &rArr;
+[<i>a</i>, <i>b</i>]@[<i>c</i>, <i>d</i>];</p>
+<p>&forall;<i>x</i>&isin;[<i>a</i>, <i>b</i>] &forall;<i>y</i>&isin;[<i>c</i>, <i>d</i>]
+<span style="text-decoration: overline"><i>x</i>@<i>y</i></span> &rArr;
+<span style="text-decoration: overline">[<i>a</i>, <i>b</i>]@[<i>c</i>, <i>d</i>]</span></p>
+</BLOCKQUOTE>
+Otherwise it is uncertain. Thus the result of relational operations is of the 
+type <a href="#Logical">Logical</a>.<blockquote>
+	<p><tt><FONT color="#0000FF">function</FONT> "<font color="#FF0000">&amp;</font>" (<B>Left</B>, 
+	<B>Right</B> : Interval) <FONT color="#0000FF">return</FONT>  
+ Boolean;<FONT color="#0000FF"><br>&nbsp;&nbsp; function</FONT> "<font color="#FF0000">&amp;</font>" (<B>Left</B> : Interval; 
+	<B>Right</B> : Number) <FONT color="#0000FF">return</FONT> 
+ Boolean;<FONT color="#0000FF"><br>&nbsp;&nbsp; function</FONT> "<font color="#FF0000">&amp;</font>" (<b>Left</b> : Number; 
+	<b>Right</b> : Interval) <FONT color="#0000FF">return</FONT> 
+ Boolean;</tt></p>
+</blockquote>
+<p>The function <tt> "<font color="#FF0000">&amp;</font>"</tt> returns <i>
+<font color="#800000">true</font></i> if the intersection of <b> Left</b> and <b> Right</b> is not empty. Other operations
+defined on intervals:
+</p>
+<blockquote>
+  <p><tt>
+<FONT color="#0000FF">function</FONT> Distance (<B>Left</B>, <B>Right</B> : Interval) <FONT color="#0000FF">return</FONT>
+ Number;<FONT color="#0000FF"><br>
+&nbsp;&nbsp; function</FONT> Distance (<B>Left</B> : Interval; <B>Right</B> : Number) <FONT color="#0000FF">return</FONT> 
+ Number;<FONT color="#0000FF"><br>
+&nbsp;&nbsp; function</FONT> Distance (<b>Left</b> : Number; <b>Right</b> : Interval) <FONT color="#0000FF">return</FONT> 
+ Number;</tt></p>
+</blockquote>
+<p>This function returns the interval distance defined as <i>max</i> (|<i>a</i>-<i>c</i>|, 
+|<i>b</i>-<i>d</i>|). An upper bound of the precise distance is returned.</p>
+<blockquote>
+  <p><tt>
+<FONT color="#0000FF">function</FONT>  From (<B>Left</B> : Interval) <FONT color="#0000FF">return</FONT>  
+ Number;<FONT color="#0000FF"><br>
+function</FONT>  To <FONT color="#0000FF">
+&nbsp;&nbsp;</FONT>(<B>Left</B> : Interval) <FONT color="#0000FF">return</FONT> Number;</tt></p>
+</blockquote>
+<p>These functions return the interval bounds.</p>
+<blockquote>
+  <p><tt>
+  <FONT color="#0000FF">function</FONT> Is_In (<B>Left</B>, <B>Right</B> : Interval) <FONT color="#0000FF">return</FONT>  
+ Boolean;<FONT color="#0000FF"><br>
+function</FONT>  Is_In (<b>Left</b> : Number; <b>Right</b> : Interval) <FONT color="#0000FF">return</FONT> 
+ Boolean;</tt></p>
+</blockquote>
+<p>These functions Is_In implement membership test. They return <font color="#800000"><i>true</i></font>
+if <b>Left</b> is a subinterval or else an element of <b>Right</b>.</p>
+<blockquote>
+  <p><tt>
+<FONT color="#0000FF">function</FONT> Is_Negative (<B>Left</B> : Interval) <FONT color="#0000FF">return</FONT> Boolean;<FONT color="#0000FF"><br>
+function</FONT> Is_Positive (<b>Left</b> : Interval) <FONT color="#0000FF">return</FONT> Boolean;</tt></p>
+</blockquote>
+<p>These functions test if the argument is negative or positive. Note that
+non-positive interval is not necessarily a negative one. If both functions return
+<font color="#800000"><i>false</i></font>, then the interval contains zero.</p>
+<blockquote>
+  <p><tt>
+<FONT color="#0000FF">function</FONT> Length (<B>Left</B> : Interval) <FONT color="#0000FF">return</FONT> Number;</tt></p>
+</blockquote>
+<p>The interval length is defined as <i>b</i>-<i>a</i>. This function returns an
+upper bound of the precise result.</p>
+<blockquote>
+  <p><tt>
+<FONT color="#0000FF">function</FONT> To_Interval (<B>Left</B> : Number) <FONT color="#0000FF">return</FONT> Interval;<br>
+<FONT color="#0000FF">function</FONT> To_Interval (<B>Left</B>; <b>Right</b> : Number) <FONT color="#0000FF">return</FONT> Interval;</tt></p>
+</blockquote>
+<p>These functions are used to convert numbers to intervals. The second function 
+propagates Constraint_Error when <b>Left</b> is greater than <b>Right</b>.</p>
+<hr>
+<p align="right">
+  <A name="2"></A><A href="#1.2"><IMG src="prev.gif" alt="[Back]" width="29"
+      height="29"></A><A href="#6"><IMG
+      src="index.gif" alt="[TOC]" width="29" height="29"></A><a href="#2.1"><IMG src="next.gif" alt="[Next]" width="29" height="29"></a></p>
+<H2>2. Dimensioned intervals</H2>
+<P><tt><a name="Intervals.Measures"></a></tt>The generic child package
+<a href="#Intervals.Measures"> Measures</a> provides an implementation of dimensioned
+intervals:</p>
+<blockquote>
+  <P><tt><font color="#0000FF">generic<br>
+  &nbsp;&nbsp; with package </font>Float_Intervals<font color="#0000FF"> is new </font>
+	Intervals.Floats (&lt;&gt;);<font color="#0000FF"><br>
+&nbsp;&nbsp; use</font> Float_Intervals;<br>
+	<font color="#0000FF">&nbsp;&nbsp; with package </font>Float_Measures<font color="#0000FF"> is new </font>Standard.Measures (Number);<font color="#0000FF"><br>
+	package </font>Intervals.Measures<font color="#0000FF"> is<br>
+  </font> &nbsp;&nbsp; ...</tt></p>
+</blockquote>
+<P>The formal parameters are:</p>
+<ul>
+  <li><a name="Intervals.Measures.Float_Measures"></a><a href="#Intervals.Measures.Float_Measures">Float_Measures</a>
+    is an instance of the generic package <a href="http://www.dmitry-kazakov.de/ada/units.htm#Measures">Measures</a>
+    that provides dimensioned floating-point values (of the type <a href="http://www.dmitry-kazakov.de/ada/units.htm#Measure">Measure</a>);</li>
+  <li><a name="Intervals.Measures.Float_Intervals"></a><a href="#Intervals.Measures.Float_Intervals">Float_Intervals</a>
+    is an instance of the generic package <a href="#Intervals.Floats">Intervals.Floats</a>
+    with the same floating-point numeric type (Number).</li>
+</ul>
+<P><a name="Intervals.Measures.Interval_Measure"></a>The type <a href="#Intervals.Measures.Interval_Measure"> Interval_Measure</a>
+is defined by the package to represent dimensioned intervals:</p>
+<blockquote>
+  <tt> <font color="#0000FF">   type</font> Interval_Measure (SI : Unit := Units.Base.Unitless)
+  <font color="#0000FF"> is record</font><br>
+  &nbsp;&nbsp; From&nbsp;&nbsp; : Number;<br>
+  &nbsp;&nbsp; To&nbsp;&nbsp;&nbsp;&nbsp; : Number;<br>
+  &nbsp;&nbsp; Offset : Number'Base;<br>
+  <font color="#0000FF">   end record</font>;</tt></blockquote>
+<P>The discriminant <i>SI</i> and the field <i>Offset</i> determine the dimension of the
+interval which bounds are specified by the fields <i>From</i> and <i>To</i>. The numerical
+values of the bounds in SI units are obtained as <i>From</i> + <i>Offset</i> and 
+<i>To</i> +
+<i>Offset</i>
+correspondingly. For further information see the description of the package <a href="http://www.dmitry-kazakov.de/ada/units.htm#Measures">Measures</a>.</p>
+<P>The result of all arithmetic operations and conversions is defined to contain
+the precise value except for the case of an overflow while evaluation of an
+interval bound. Depending on the <a href="#Overflows">underlying floating-point
+type and compiler options</a> that may or not result in Constraint_Error
+exception.</p>
+<p align="right">
+  <a name="2.1"></a><a href="#2"><IMG src="prev.gif" alt="[Back]" width="29"
+      height="29"></a><A href="#6"><IMG
+      src="index.gif" alt="[TOC]" width="29" height="29"></A><a href="#2.2"><IMG src="next.gif" alt="[Next]" width="29" height="29"></a></p>
+<h3>2.1. Arithmetic</h3>
+<p>The following arithmetic operations are defined on dimensioned intervals:</p>
+<blockquote>
+  <p align="left"><tt><font color="#0000FF">   function</font> &quot;<font color="#FF0000">abs</font>&quot;
+  (<b>Left</b> : Interval_Measure) <font color="#0000FF"> return</font>
+  Interval_Measure;<br>
+  <font color="#0000FF">function</font> &quot;<font color="#FF0000">+</font>&quot;&nbsp;&nbsp;
+  (<b>Left</b> : Interval_Measure)&nbsp;<font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  <font color="#0000FF">function</font> &quot;<font color="#FF0000">-</font>&quot;&nbsp;&nbsp;
+  (<b>Left</b> : Interval_Measure)&nbsp;<font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  <font color="#0000FF">function</font> &quot;<font color="#FF0000">**</font>&quot;&nbsp;
+  (<b>Left</b> : Interval_Measure; <b> Right</b> : Number) <font color="#0000FF">return</font>
+  Interval_Measure;<font color="#0000FF"><br>
+  <br>
+  function</font> &quot;<font color="#FF0000">+</font>&quot;
+  (<b>Left</b>, <b> Right</b> : Interval_Measure) <font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">+</font>&quot;
+  (<b>Left</b> : Interval_Measure; <b> Right</b> : Measure)&nbsp;<font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">+</font>&quot;
+  (<b>Left</b> : Measure; <b> Right</b> : Interval_Measure)&nbsp;<font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  <br>
+  <font color="#0000FF">function</font> &quot;<font color="#FF0000">-</font>&quot;
+  (<b>Left</b>, <b> Right</b> : Interval_Measure) return Interval_Measure;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">-</font>&quot;
+  (<b>Left</b> : Interval_Measure; <b> Right</b> : Measure)&nbsp;<font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">-</font>&quot;
+  (<b>Left</b> : Measure; <b> Right</b> : Interval_Measure)&nbsp;<font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  <br>
+ <font color="#0000FF">function</font> &quot;<font color="#FF0000">*</font>&quot;
+  (<b>Left</b>, <b> Right</b> : Interval_Measure) <font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  &nbsp;&nbsp;
+  <font color="#0000FF">function</font> &quot;<font color="#FF0000">*</font>&quot;
+  (<b>Left</b> : Interval_Measure; <b> Right</b> : Measure )&nbsp;<font color="#0000FF">return</font> 
+  Interval_Measure;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">*</font>&quot;
+  (<b>Left</b> : Interval_Measure; <b> Right</b> : Interval) <font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">*</font>&quot;
+  (<b>Left</b> : Interval_Measure; <b> Right</b> : Number&nbsp; ) <font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">*</font>&quot;
+  (<b>Left</b> : Measure;&nbsp; <b>Right</b> : Interval_Measure)&nbsp;<font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">*</font>&quot;
+  (<b>Left</b> : Interval; <b> Right</b> : Interval_Measure) <font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">*</font>&quot;
+  (<b>Left</b> : Number;&nbsp; <b>Right</b>&nbsp; : Interval_Measure)&nbsp;<font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">*</font>&quot;
+  (<b>Left</b> : Interval; <b> Right</b> : Measure ) <font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">*</font>&quot;
+  (<b>Left</b> : Measure;&nbsp; <b>Right</b> : Interval)&nbsp;<font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  <br>
+ <font color="#0000FF">function</font> &quot;<font color="#FF0000">/</font>&quot;
+  (<b>Left</b>, <b> Right</b> : Interval_Measure) <font color="#0000FF">return</font> 
+  Interval_Measure;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">/</font>&quot;
+  (<b>Left</b> : Interval_Measure; <b> Right</b> : Interval) <font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  &nbsp;&nbsp;
+  <font color="#0000FF">function</font> &quot;<font color="#FF0000">/</font>&quot;
+  (<b>Left</b> : Interval_Measure; <b> Right</b> : Measure ) <font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">/</font>&quot;
+  (<b>Left</b> : Interval_Measure; <b> Right</b> : Number&nbsp; ) <font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">/</font>&quot;
+  (<b>Left</b> : Measure;&nbsp; <b>Right</b> : Interval_Measure)&nbsp;<font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">/</font>&quot;
+  (<b>Left</b> : Interval; <b> Right</b> : Interval_Measure) <font color="#0000FF">return</font>
+  Interval_Measure;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">/</font>&quot;
+  (<b>Left</b> : Number;&nbsp;&nbsp; <b>Right</b> : Interval_Measure)&nbsp;<font color="#0000FF">return</font>
+  Interval_Measure;</tt></p>
+</blockquote>
+<p>Binary additive operations <tt>&quot;<font color="#FF0000">+</font>&quot; and
+&quot;<font color="#FF0000">-</font>&quot; </tt>accept as one of the arguments a
+dimensioned number of the type <a href="#Intervals.Measures.Float_Measures">Float_Measures</a>.<a href="http://www.dmitry-kazakov.de/ada/units.htm#Measure">Measure</a>.
+Multiplicative binary operations <tt>&quot;<font color="#FF0000">*</font>&quot;
+and &quot;<font color="#FF0000">/</font>&quot;</tt> accept as one of the
+arguments:</p>
+<ul>
+  <li>plain number (of the type Number);</li>
+  <li>plain interval (of the type <a href="#Intervals.Measures.Float_Intervals">Float_Intervals</a>.Interval);</li>
+  <li>dimensioned number (of the type <a href="#Intervals.Measures.Float_Measures">Float_Measures</a>.<a href="http://www.dmitry-kazakov.de/ada/units.htm#Measure">Measure</a>).</li>
+</ul>
+<p>Additionally <tt>&quot;<font color="#FF0000">*</font>&quot;
+and &quot;<font color="#FF0000">/</font>&quot;</tt>  are defined for a
+dimensioned number and a plain interval. The exception Unit_Error (defined in <a href="http://www.dmitry-kazakov.de/ada/units.htm#Units">Units</a>)
+is propagated on all unit errors as described in <a href="http://www.dmitry-kazakov.de/ada/units.htm#Measures">Measures</a>.
+Constraint_Error is propagated out of multiplicative operations <tt>
+  "<FONT color="#FF0000">*</FONT>"</tt>, <tt>
+  "<FONT color="#FF0000">/</FONT>"</tt>  and exponentiation <tt> &quot;<font color="#FF0000">**</font>&quot;</tt>
+when the dimension of the result cannot
+be represented because of a base unit power overflow.</p>
+<blockquote>
+  <p><tt><font color="#0000FF">   function</font> &quot;<font color="#FF0000">&gt;</font>&quot;
+  (<b>Left</b>, <b> Right</b> : Interval_Measure) <font color="#0000FF">return</font> Logical;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">&gt;</font>&quot;
+  (<b>Left</b> : Interval_Measure; <b> Right</b> : Measure) <font color="#0000FF">return</font> Logical;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">&gt;</font>&quot;
+  (<b>Left</b> : Measure; <b> Right</b> : Interval_Measure) <font color="#0000FF">return</font> Logical;<br>
+  <br>
+  <font color="#0000FF">   function</font> &quot;<font color="#FF0000">&gt;=</font>&quot;
+  (<b>Left</b>, <b> Right</b> : Interval_Measure) <font color="#0000FF">return</font> Logical;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">&gt;=</font>&quot;
+  (<b>Left</b> : Interval_Measure; <b> Right</b> : Measure) <font color="#0000FF">return</font> Logical;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> &quot;<font color="#FF0000">&gt;=</font>&quot;
+  (<b>Left</b> : Measure; <b> Right</b> : Interval_Measure) <font color="#0000FF">return</font> Logical;<br>
+  <br>
+  <font color="#0000FF">   function</font> "<font color="#FF0000">&lt;=</font>&quot;
+  (<b>Left</b>, <b> Right</b> : Interval_Measure) <font color="#0000FF">return</font> Logical;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> "<font color="#FF0000">&lt;=</font>&quot;
+  (<b>Left</b> : Interval_Measure; <b> Right</b> : Measure) <font color="#0000FF">return</font> Logical;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> "<font color="#FF0000">&lt;=</font>&quot;
+  (<b>Left</b> : Measure; <b> Right</b> : Interval_Measure) <font color="#0000FF">return</font> Logical;<br>
+  <br>
+  <font color="#0000FF">function</font> "<font color="#FF0000">&lt;</font>" (<b>Left</b>,
+  <b> Right</b> : Interval_Measure) <font color="#0000FF">return</font> Logical;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> "<font color="#FF0000">&lt;</font>"
+  (<b>Left</b> : Interval_Measure; <b> Right</b> : Measure) <font color="#0000FF">return</font> Logical;<br>
+  &nbsp;&nbsp; <font color="#0000FF">function</font> "<font color="#FF0000">&lt;</font>"
+  (<b>Left</b> : Measure; <b> Right</b> : Interval_Measure) <font color="#0000FF">return</font> Logical;<br>
+  <br>
+  <font color="#0000FF">function</font> "<font color="#FF0000">&amp;</font>" (<b>Left</b>,
+  <b> Right</b> : Interval_Measure) <font color="#0000FF"> return</font> Boolean;</tt></p>
+</blockquote>
+<p>In these relational operations one of the arguments can be a dimensioned
+value of the type <a href="#Intervals.Measures.Float_Measures">Float_Measures</a>.<a href="http://www.dmitry-kazakov.de/ada/units.htm#Measure">Measure</a>.
+Differently shifted arguments are allowed, Uint_Error is propagated only if the
+arguments have incomparable dimensions. The function <tt> "<font color="#FF0000">&amp;</font>"</tt>
+returns <font color="#800000"><i> true</i></font> if the intersection of <b> Left</b> and <b> Right</b> is not empty.
+It is optimistic in the sense that it yields <font color="#800000"><i>true</i></font>
+always when the precise does. Thus computation errors may lead to a false
+positive, but never to a false negative.</p>
+<p>Equality <tt> "<font color="#FF0000">=</font>"</tt> (and so inequality <tt>"<font color="#FF0000">/=</font>"</tt>)
+is defined as identity. Uint_Error is not propagated out of them.</p>
+<h3 align="right"><a name="2.2"></a><a href="#2.1"><IMG src="prev.gif" alt="[Back]" width="29"
+      height="29"></a><A href="#6"><IMG
+      src="index.gif" alt="[TOC]" width="29" height="29"></A><a href="#2.3"><IMG src="next.gif" alt="[Next]" width="29" height="29"></a></h3>
+<h3>2.2. Operations</h3>
+<blockquote>
+  <p><tt>
+<FONT color="#0000FF">function</FONT> Distance (<b>Left</b>, <b> Right</b> : Interval_Measure)
+<font color="#0000FF">return</font> Measure;<br>
+<font color="#0000FF">   function</font> Distance (<b>Left</b> : Measure; <b> Right</b> : Interval_Measure)
+<font color="#0000FF">return</font> Measure;<br>
+<font color="#0000FF">   function</font> Distance (<b>Left</b> : Interval_Measure;
+<b> Right</b> : Measure) <font color="#0000FF">return</font> Measure;</tt></p>
+</blockquote>
+<p>This function returns the interval distance defined as <i>max</i> (|<i>a</i>-<i>c</i>|,
+|<i>b</i>-<i>d</i>|). An upper bound of the precise distance is returned. One of the arguments can be a dimensioned value of the
+type <a href="#Intervals.Measures.Float_Measures">Float_Measures</a>.<a href="http://www.dmitry-kazakov.de/ada/units.htm#Measure">Measure</a>.
+Unit_Error is propagated when the arguments cannot be added because units are
+incompatible or differently shifted.</p>
+<blockquote>
+  <p><tt>
+<FONT color="#0000FF">function</FONT>  From (<B>Left</B> : Interval_Measure) <font color="#0000FF"> return</font> Measure;<FONT color="#0000FF"><br>
+function</FONT>  To <FONT color="#0000FF">
+&nbsp;&nbsp;</FONT>(<B>Left</B> : Interval_Measure) <font color="#0000FF"> return</font> Measure;</tt></p>
+</blockquote>
+<p>These functions return the interval bounds as dimensioned values.</p>
+<blockquote>
+  <p><tt><font color="#0000FF">   function</font>  Get_Unit (<b>Value</b> : Interval_Measure)
+  <font color="#0000FF"> return</font> Unit;</tt></p>
+</blockquote>
+<p>This function returns the SI measurement unit of the argument.</p>
+<blockquote>
+  <p><tt>
+  <FONT color="#0000FF">function</FONT> Is_In (<B>Left</B>, <B>Right</B> :
+  Interval_Measure) <FONT color="#0000FF">return</FONT>  
+ Boolean;<FONT color="#0000FF"><br>
+function</FONT>  Is_In (<b>Left</b> : Measure; <b>Right</b> : Interval_Measure) <FONT color="#0000FF">return</FONT> 
+ Boolean;</tt></p>
+</blockquote>
+<p>These functions return <font color="#800000"><i>true</i></font>
+if <b>Left</b> is a subinterval or else an element of <b>Right</b>. One of the
+parameters can be a dimensioned value of the type <a href="#Intervals.Measures.Float_Measures">Float_Measures</a>.<a href="http://www.dmitry-kazakov.de/ada/units.htm#Measure">Measure</a>.
+Differently shifted parameters are allowed. If <b>Left</b> and <b>Right</b> have different
+units, the result <i><font color="#800000">false</font></i>.&nbsp;The implementation is pessimistic
+in the sense that the result is <font color="#800000"><i>true</i></font> only if
+the precise result is. It means that due to computation errors the result can be
+false negative, but never false positive.</p>
+<blockquote>
+  <p><tt>
+<FONT color="#0000FF">function</FONT> Is_Negative (<B>Left</B> :
+Interval_Measure) <FONT color="#0000FF">return</FONT> Boolean;<FONT color="#0000FF"><br>
+function</FONT> Is_Positive (<b>Left</b> : Interval_Measure) <FONT color="#0000FF">return</FONT> Boolean;</tt></p>
+</blockquote>
+<p>These function test if the argument is negative or positive. Note that
+non-positive interval is not necessarily a negative one. If both functions return
+<font color="#800000"><i>false</i></font>, then the interval contains zero.</p>
+<blockquote>
+  <p><tt>
+<FONT color="#0000FF">function</FONT> Length (<B>Left</B> : Interval_Measure) <FONT color="#0000FF">return</FONT> 
+Measure;</tt></p>
+</blockquote>
+<p>The interval length is defined as <i>b</i>-<i>a</i>. This function returns an
+upper bound of the precise result.</p>
+<h3 align="right"><a name="2.3"></a><a href="#2.2"><IMG src="prev.gif" alt="[Back]" width="29"
+      height="29"></a><A href="#6"><IMG
+      src="index.gif" alt="[TOC]" width="29" height="29"></A><a href="#3"><IMG src="next.gif" alt="[Next]" width="29" height="29"></a></h3>
+<h3>2.3. Conversions</h3>
+<blockquote>
+  <p><tt><font color="#0000FF">   function</font> Convert (<b>Value</b> : Interval_Measure;
+  <b> Scale</b> : Measure)<br>
+  &nbsp;&nbsp; <font color="#0000FF">return</font> Interval_Measure;</tt></p>
+</blockquote>
+<p>This function is used to convert the interval measure <b> Value</b> to the measurement units specified by the parameter
+<b>Scale</b>. When offsets of <b> Value</b>  and <b>Scale</b> are same this is null operation.
+Unit_Error is propagated when conversion is impossible because units of <b>Value</b>
+and <b>Scale</b> are incompatible.</p>
+<blockquote>
+  <p><tt><font color="#0000FF">   function</font>  Get_Value (<b>Value</b> : Interval_Measure)
+  <font color="#0000FF"> return</font> Interval;</tt></p>
+</blockquote>
+<p>This function returns SI equivalent of its argument. The result is a plain
+interval of the type <a href="#Intervals.Measures.Float_Intervals">Float_Intervals</a>.Interval.</p>
+<blockquote>
+  <p><tt><font color="#0000FF">   function</font>  Get_Value_As (<b>Value</b> : Interval_Measure;
+  <b> Scale</b> : Measure)<br>
+  &nbsp;&nbsp; <font color="#0000FF">return</font> Interval;</tt></p>
+</blockquote>
+<p>This function returns <b>Scale</b> equivalent of its argument. The result is
+a plain interval of the type <a href="#Intervals.Measures.Float_Intervals">Float_Intervals</a>.Interval.
+Unit_Error is propagated when conversion is impossible because units of <b>Value</b>
+and <b>Scale</b> are incompatible.</p>
+<blockquote>
+  <p><tt>
+  <FONT color="#0000FF">function</FONT> Normalize (<b>Value</b> : Interval_Measure)
+  <font color="#0000FF">return</font> Interval_Measure;</tt></p>
+</blockquote>
+<p>This function returns unshifted equivalent of its argument. For example when
+applied to an interval of Celsius degrees the result will be an equivalent
+interval in Kelvin.</p>
+<blockquote>
+  <p><tt>
+  <FONT color="#0000FF">function</FONT> Shift (<b>Value</b> : Interval_Measure; <b> Shift</b> : Number'Base)<br>
+  &nbsp;&nbsp; <font color="#0000FF">return</font> Interval_Measure;</tt></p>
+</blockquote>
+<p>This function returns an equivalent of its argument&nbsp; The offset of the
+result is determined by the parameter <b>Shift</b>.</p>
+<blockquote>
+  <p><tt>
+<FONT color="#0000FF">function</FONT> To_Interval_Measure (<b>Left</b>, <b> Right</b> : Measure)
+<font color="#0000FF">return</font> Interval_Measure;<br>
+<font color="#0000FF">   function</font> To_Interval_Measure (<b>Left</b>, <b> Right</b> : Number)&nbsp;
+<font color="#0000FF">return</font> Interval_Measure;<br>
+<font color="#0000FF">   function</font> To_Interval_Measure (<b>Left</b> :
+Measure )
+<font color="#0000FF">return</font> Interval_Measure;<br>
+<font color="#0000FF">   function</font> To_Interval_Measure (<b>Left</b> :
+Number&nbsp; ) <font color="#0000FF">return</font> Interval_Measure;<br>
+<font color="#0000FF">   function</font> To_Interval_Measure (<b>Left</b> : Interval)
+<font color="#0000FF">return</font> Interval_Measure;</tt></p>
+</blockquote>
+<p>These functions are used for interval composition. A pair of dimensioned or
+plain numbers can be used to create a dimensioned interval with the
+corresponding bounds. Unit_Error is propagated when the bound have incompatible
+units or are differently shifted. The result is dimensionless if the arguments
+are numeric. The variants with one argument construct a zero length interval
+when the argument is a number or a dimensioned number. When the argument is a
+plain interval, then the result is a dimensionless one.</p>
+<hr>
+<p align="right">
+  <A name="3"></A><a href="#2.3"><IMG src="prev.gif" alt="[Back]" width="29"
+      height="29"></a><A href="#6"><IMG
+      src="index.gif" alt="[TOC]" width="29" height="29"></A><a href="#3.1"><IMG src="next.gif" alt="[Next]" width="29" height="29"></a></p>
+<H2>3. Packages</H2>
+<h3 align="right"><a name="3.1"></a><a href="#3"><IMG src="prev.gif" alt="[Back]" width="29"
+      height="29"></a><A href="#6"><IMG
+      src="index.gif" alt="[TOC]" width="29" height="29"></A><a href="#3.2"><IMG src="next.gif" alt="[Next]" width="29" height="29"></a></h3>
+<h3>3.1. Source packages</h3>
+<TABLE border="5" cellpadding="3" cellspacing="0">
+  <TR>
+    <TD bgcolor="#008080" colspan="2"><FONT color="#FFFFFF"><B>Package</B></FONT></TD>
+    <TD bgcolor="#008080"><FONT color="#FFFFFF"><B>Provides</B></FONT></TD>
+  </TR>
+  <TR>
+    <TD colspan="2"><a href="#Intervals">Intervals</a></TD>
+    <TD>The type <a href="#Logical">Logical</a> and operations on it</TD>
+  </TR>
+  <tr>
+    <TD rowspan="3" bgcolor="#C0C0C0">&nbsp;&nbsp;&nbsp;</TD>
+    <TD><a href="#Intervals.Floats">Floats</a></TD>
+    <TD>Floating-point&nbsp; interval arithmetic. This is a generic package. The
+      parameter is a floating-point type</TD>
+  </tr>
+  <tr>
+    <TD><a href="#Intervals.Integers">Integers</a></TD>
+    <TD>Integer interval arithmetic. This is a generic package. The parameter is
+      an integer type</TD>
+  </tr>
+  <tr>
+    <TD><a href="#Intervals.Measures">Measures</a></TD>
+    <TD>Dimensioned intervals.</TD>
+  </tr>
+  <tr>
+    <TD colspan="2">Float_Intervals</TD>
+    <TD>An instantiation of <a href="#Intervals.Floats">Intervals.Floats</a> with Float as the actual parameter</TD>
+  </tr>
+  <tr>
+    <TD colspan="2">Float_Interval_Measures</TD>
+    <TD>An instantiation of <a href="#Intervals.Measures">Intervals.Measures</a>
+      for the type Float</TD>
+  </tr>
+  <tr>
+    <TD colspan="2">Integer_Intervals</TD>
+    <TD>An instantiation of <a href="#Intervals.Integers">Intervals.Integers</a> with Integer as the actual
+      parameter</TD>
+  </tr>
+</TABLE>
+
+<h3 align="right"><a name="3.2"></a><a href="#3.1"><IMG src="prev.gif" alt="[Back]" width="29"
+      height="29"></a><A href="#6"><IMG
+      src="index.gif" alt="[TOC]" width="29" height="29"></A><a href="#4"><IMG src="next.gif" alt="[Next]" width="29" height="29"></a></h3>
+
+<h3>3.2. Related&nbsp; packages</h3>
+
+<p>The following packages are described in the separate documents:</p>
+<ul>
+  <li>The packages related to 
+	<a href="http://www.dmitry-kazakov.de/ada/tables.htm">tables management</a>;</li>
+  <li>The packages dealing with 
+	<a href="http://www.dmitry-kazakov.de/ada/strings_edit.htm">strings editing</a>;</li>
+  <li>The packages for handling 
+	<a href="http://www.dmitry-kazakov.de/ada/units.htm">dimensioned values</a>.</li>
+</ul>
+  <HR>
+<p align="right">
+  <a name="4"></a><a href="#3.2"><IMG src="prev.gif" alt="[Back]" width="29"
+      height="29"></a><A href="#6"><IMG src="index.gif" alt="[TOC]" width="29" height="29"></A><a href="#5"><IMG src="next.gif" alt="[Next]" width="29" height="29"></a></p>
+<H2>4. Installation</H2>
+<p>The software does not require special installation. The archive's content can be 
+put in a directory and used as-is. For users of <a href="http://libre.adacore.com/libre/">GNAT compiler</a> 
+the software provides gpr project files, which can be used in the
+<a href="https://libre.adacore.com/gps/main.html">Gnat Programming Studio</a> 
+(GPS).</p>
+<p>For CentOS, Debian, Fedora, Ubuntu Linux distributions there are pre-compiled 
+packages, see the links on the top of the page.</p>
+<p>To ease use of the software with GPS, it can be integrated into the GPS 
+using the <a href="http://www.dmitry-kazakov.de/ada/gps_installer.htm">GPS 
+Library Installer</a> (gps_installer). Start the gps_installer as root (or with 
+the corresponding administrative rights to the GNAT installation directory) 
+specifying the source directory as the argument. Follow the instructions.</p>
+<TABLE border="5" cellpadding="3" cellspacing="0">
+  <TR>
+    <TD valign="top" bgcolor="#008080"><FONT color="#FFFFFF"><B>Project files</B></FONT></TD>
+    <TD valign="top" bgcolor="#008080"><FONT color="#FFFFFF"><B>Provides</B></FONT></TD>
+    <TD valign="top" bgcolor="#008080"><FONT color="#FFFFFF"><B>Use in custom 
+	project</B></FONT></TD>
+  </TR>
+  <TR>
+    <TD valign="top">intervals</TD>
+    <TD valign="top">Interval Arithmetic for Ada</TD>
+    <TD valign="top"><tt><font color="#0000FF">with</font> 
+	&quot;intervals.gpr&quot;;</tt> </TD>
+  </TR>
+  </TABLE>
+  <HR>
+<p align="right">
+  <a name="5"></a><a href="#4"><IMG src="prev.gif" alt="[Back]" width="29"
+      height="29"></a><A href="#6"><IMG src="index.gif" alt="[TOC]" width="29" height="29"></A><a href="#6"><IMG src="next.gif" alt="[Next]" width="29" height="29"></a></p>
+<H2>5. <a name="changes_log"></a> Changes log</H2>
+<P>
+<i>
+The following versions were tested with the compilers:</i>
+<ul>
+  <li>
+<i>GNAT Community 2018 (20180523-73)</i></li>
+	<li>
+<i>GNAT 8</i></li>
+  </ul>
+<P>
+Changes (5 Aug 2018) to the version 1.12:<ul>
+  <li>Switched to GNAT Community 2018.</li>
+</ul>
+<P>
+<i>
+The following versions were tested with the compilers:</i><ul>
+  <li>
+<i>GNAT GPL 2015 (20150428-49)</i></li>
+	<li><i>GNAT 4.9.2</i></li>
+  </ul>
+<p>Changes (2 April 2015) to the version 1.11:</p>
+<ul>
+  <li>ARMv7 (AKA armhf) support.</li>
+</ul>
+<p>Changes (1 June 2014) to the version 1.10:</p>
+<ul>
+	<li>Compiled with GNAT 4.9.</li>
+</ul>
+<P>
+<i>
+The following versions were tested with the compilers:</i>
+<ul>
+  <li>
+<i>GNAT Pro 6.4.2 (20110614-45)</i></li>
+	<li>
+<i>GNAT 4.6.2 (20111027)</i></li>
+</ul>
+<P>
+Changes to the version 1.9.<ul>
+  <li>Fedora and Debian packages are provided for both 32- and 64-bit 
+	architectures.</li>
+</ul>
+<P>
+<i>
+The following versions were tested with the compilers:</i>
+<ul>
+  <li>
+<i>GNAT Pro 6.3.1 (20100111-43)</i></li>
+	<li>
+<i>GNAT GPL 2009 (20090511)</i></li>
+</ul>
+<P>
+Changes to the version 1.7.<ul>
+  <li>Rounding behaviour was changed in the case when a boundary is exact zero. 
+	It is left as is, even if the machine rounds. Because rounding cannot change 
+	the sign.</li>
+</ul>
+<P>
+<i>
+The following versions were tested with the compilers:</i>
+<ul>
+  <li>
+<i>GNAT Pro 6.2.1 (20090115-43)</i></li>
+	<li>
+<i>GNAT GPL 2009 (20090519)</i></li>
+</ul>
+<P>
+Changes to the version 1.6.<ul>
+  <li>Installation instructions added.</li>
+</ul>
+<p><i>The following versions were tested with the compilers:</i> </p>
+<ul>
+	<li><i>GNAT GPL 2008 (20080521)</i></li>
+</ul>
+<P>Changes to the version 1.5:<ul>
+  <li>The dimensioned intervals are not based on the version 2.8 of
+	<a href="http://www.dmitry-kazakov.de/ada/units.htm">Units of Measurements 
+	for Ada</a>;</li>
+	<li>A bug is fixed in Get_Value_As for dimensioned intervals.</li>
+  </ul>
+<p><i>The following versions were tested with the compilers:</i> </p>
+<ul>
+	<li><i>GNAT GPL 2007 (20070405-41)</i></li>
+</ul>
+<P>Changes to the version 1.4:<ul>
+  <li>For GNAT users GPS project files were included;</li>
+	<li>Based on Measurement units for Ada v 2.4.</li>
+  </ul>
+<p><i>The following versions were tested with the compilers:</i> </p>
+<ul>
+	<li><i>GNAT 3.15p</i></li>
+</ul>
+<P>Changes to the version 1.3:<ul>
+  <li>Multiplication and division between a dimensioned number and plain
+    interval were added to construct dimensioned intervals.</li>
+  </ul>
+<P>Changes to the version 1.2:<ul>
+  <li>Exponentiation operation was added;</li>
+  <li>Some documentation errors fixed;</li>
+  <li>Functions Distance and Length now return an upper bound of the precise
+    result;</li>
+  <li>Is_In for operands of different units returns false;</li>
+  <li>All operations were reviewed to contain the precise result where possible;</li>
+  <li>Based on Measurement units for Ada v 2.0.</li>
+  </ul>
+<P>Changes to the version 1.1:<ul>
+  <li>Dimensioned intervals added;</li>
+  <li>Table management, string editing and dimensioned values management
+    packages included into the distribution.</li>
+  </ul>
+<P>Changes to the version 1.0:<ul>
+  <li>Licensing wording was corrected to comply with GMGPL</li>
+  </ul>
+<H2 align="right">
+  <a name="6"></a><a href="#5"><IMG src="prev.gif" alt="[Back]" width="29"
+      height="29"></a><a href="#6"><IMG src="index.gif"
+      alt="[TOC]" width="29" height="29"></a></H2>
+<H2>6. Table of Contents</H2>
+<P>
+<A href="#1">1. Types</A> <BR>
+&nbsp;&nbsp;&nbsp; <A href="#1.1">1.1. Tri-state logic</A> <BR>
+&nbsp;&nbsp;&nbsp; <A href="#1.2">1.2. Interval arithmetic</A> <BR>
+<A href="#2">2. Dimensioned intervals</A> <BR>
+&nbsp;&nbsp;&nbsp; <A href="#2.1">2.1. Arithmetic</A> <BR>
+&nbsp;&nbsp;&nbsp; <A href="#2.2">2.2. Operations</A> <BR>
+&nbsp;&nbsp;&nbsp; <A href="#2.3">2.3. Conversions</A> <BR>
+<A href="#3">3. Packages</A> <BR>
+&nbsp;&nbsp;&nbsp; <A href="#3.1">3.1. Source packages</A> <BR>
+&nbsp;&nbsp;&nbsp; <A href="#3.2">3.2. Related packages</A> <BR>
+<A href="#4">4. Installation</A> <BR>
+&nbsp;&nbsp;&nbsp; <A href="#4.1">4.1. Fedora packages repository</A> <BR>
+&nbsp;&nbsp;&nbsp; <A href="#4.2">4.2. Debian packages repository</A> <BR>
+<A href="#5">5. Changes log</A> <BR>
+<A href="#6">6. Table of contents</A></BODY></HTML>

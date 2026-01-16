@@ -1,0 +1,16 @@
+with "../units.gpr";
+with "../units-gtk.gpr";
+
+project Units.GTK.Test_Gtk_Unit_Selection is
+
+   for Source_Dirs use (".");
+   for Source_Files use ("test_gtk_unit_selection.adb");
+   for Main use ("test_gtk_unit_selection.adb");
+   for Object_Dir use Units.Object_Dir_Path;
+
+   package Compiler renames Units.GTK.Compiler;
+   package Binder   renames Units.GTK.Binder;
+   package Builder  renames Units.GTK.Builder;
+   package Linker   renames Units.GTK.Linker;
+
+end Units.GTK.Test_Gtk_Unit_Selection;

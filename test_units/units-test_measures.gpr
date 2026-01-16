@@ -1,0 +1,16 @@
+with "../units.gpr";
+
+project Units.Test_Measures is
+
+   for Source_Dirs use (".");
+   for Main use ("test_measures.adb");
+   for Source_Files use ("test_measures.adb");
+   for Object_Dir use Units.Object_Dir_Path;
+
+   package Compiler renames Units.Compiler;
+   package Binder   renames Units.Binder;
+   package Builder  renames Units.Builder;
+   package Linker   renames Units.Linker;
+
+end Units.Test_Measures;
+

@@ -1,0 +1,52 @@
+with "strings_edit.gpr";
+with "tables.gpr";
+
+Project Units is
+
+   for Source_Dirs use (".");
+   for Source_Files use 
+       (  "complex_measures.ads",
+          "float_measures.ads",
+          "float_measures_derived.ads",
+          "float_measures_edit.ads",
+          "float_measures_elementary_functions.ads",
+          "float_measures_irregular.ads",
+          "float_measures_universal_edit.ads",
+          "float_measures_utf8_edit.ads",
+          "generic_complex_measures.adb",
+          "generic_complex_measures.ads",
+          "measures.adb",
+          "measures.ads",
+          "measures_derived.ads",
+          "measures_edit.adb",
+          "measures_edit.ads",
+          "measures_elementary_functions.adb",
+          "measures_elementary_functions.ads",
+          "measures_generic_edit.adb",
+          "measures_generic_edit.ads",
+          "measures_irregular.ads",
+          "measures_table_of_integer.ads",
+          "measures_table_of_measure.ads",
+          "measures_universal_edit.adb",
+          "measures_universal_edit.ads",
+          "measures_utf8_edit.adb",
+          "measures_utf8_edit.ads",
+          "units-base.ads",
+          "units-constants.ads",
+          "units-edit.adb",
+          "units-edit.ads",
+          "units-utf8_edit.adb",
+          "units-utf8_edit.ads",
+          "units.adb",
+          "units.ads"
+       );
+
+   Object_Dir_Path := Strings_Edit.Object_Dir_Path;
+   for Object_Dir use Object_Dir_Path;
+
+   package Compiler renames Strings_Edit.Compiler;
+   package Binder   renames Strings_Edit.Binder;
+   package Builder  renames Strings_Edit.Builder;
+   package Linker   renames Strings_Edit.Linker;
+
+end Units;

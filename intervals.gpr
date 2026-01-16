@@ -1,0 +1,28 @@
+with "units.gpr";
+
+project Intervals is
+
+   for Source_Dirs use (".");
+   for Source_Files use
+      (  "float_intervals.ads", 
+         "float_interval_measures.ads", 
+         "integer_intervals.ads", 
+         "intervals-floats.adb", 
+         "intervals-floats.ads", 
+         "intervals-integers.adb", 
+         "intervals-integers.ads", 
+         "intervals-measures.adb", 
+         "intervals-measures.ads", 
+         "intervals.adb",          
+         "intervals.ads"
+      );
+   Object_Dir_Path := Units.Object_Dir_Path;
+   for Object_Dir use Object_Dir_Path;
+   
+   package Builder  renames Units.Builder;
+   package Binder   renames Units.Binder;
+   package Compiler renames Units.Compiler;
+   package Linker   renames Units.Linker;
+
+end Intervals;
+
