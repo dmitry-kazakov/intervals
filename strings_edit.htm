@@ -11,7 +11,7 @@
 <BODY bgcolor="#FFFFFF" link="#0000FF" vlink="#800000">
 <P align="center">
 <BIG><BIG><BIG><B>STRINGS EDIT</B></BIG></BIG><BR>
-<EM>version 3.10</EM><BR>
+<EM>version 3.11</EM><BR>
 by Dmitry A. Kazakov</BIG><BR>
 (<A HREF="mailto:mailbox@dmitry-kazakov.de">mailbox@dmitry-kazakov.de</A>)<br>
 <a href="http://www.dmitry-kazakov.de"><img border="0" src="home.jpg" alt="[Home]" width="40" height="40"></a>
@@ -57,6 +57,8 @@ are supported by the package:
     Object identifiers and distinguished names;<LI>
 	<a href="https://tools.ietf.org/html/rfc8439">RFC 8439</a> (ChaCha20 cipher, 
 	Poly1305 digest, AEAD);<LI>
+	<a href="https://datatracker.ietf.org/doc/html/rfc3987">RFC 3987</a> (IRI, 
+	formerly URL);<LI>
     UTF-8 encoded strings and conversions to older encoding standards;<LI>
     Unicode maps and sets;<LI>
     Wildcard pattern matching.
@@ -206,10 +208,10 @@ can be here.</p>
 		<td style="border-bottom-style: solid; border-bottom-width: 1px" colspan="2">Source distribution (any platform)</td>
 		<td style="border-bottom-style: solid; border-bottom-width: 1px; border-top-style:none; border-top-width:medium">&nbsp;</td>
 		<td style="border-bottom-style: solid; border-bottom-width: 1px; border-top-style:none; border-top-width:medium" colspan="2">
-<a href="http://www.dmitry-kazakov.de/ada/strings_3_10.tgz">strings_3_10.tgz</a> (<b>tar</b> + <b>gzip</b>, Windows users may use WinZip)</td>
+<a href="http://www.dmitry-kazakov.de/ada/strings_3_11.tgz">strings_3_11.tgz</a> (<b>tar</b> + <b>gzip</b>, Windows users may use WinZip)</td>
 		<td>&nbsp;</td>
 		<td align="center" colspan="4">
-		<a href="http://www.dmitry-kazakov.de/ada/strings_3_10.tgz">
+		<a href="http://www.dmitry-kazakov.de/ada/strings_3_11.tgz">
  <img src="download.jpg" align=middle alt="[Download]" width="29" height="29"></a></td>
 	</tr>
 </table>
@@ -217,7 +219,8 @@ can be here.</p>
 <a href="#changes_log">changes log</a>.</P>
 <hr>
 <P align="right">
-<A name="1"></A><A href="#17"><IMG
+<A name="1"></A><A href="#18"
+><IMG
     src="index.gif" alt="[TOC]" width="29" height="29"></A><A
     href="#2"><IMG src="next.gif" alt="[Next]" width="29" height="29"></A><H2>1. Input from String</H2>
 <H3><A name="1.1"></A>1.1. Get procedures</H3>
@@ -1090,8 +1093,7 @@ This function returns an UTF-8 encoded string corresponding to <b>Value</b>.</p>
 
 <blockquote>
   <P><tt><font color="#0000FF">function</FONT>  Length (<b>Source</b> : String) <font color="#0000FF"> return</font>
-  Natural;</tt>
-</blockquote>
+  Natural;</tt></blockquote>
 <P>This procedure evaluates the length of a UTF-8 encoded string in code points. Data_Error is
 propagated when <b>Source</b> is not a valid UTF-8 string.
 <blockquote>
@@ -1109,6 +1111,16 @@ propagated when <b>Source</b> is not a valid UTF-8 string.
 Layout_Error is propagated when <b>Pointer</b> is not in <b>Destination</b>'Range
 or there is no room for output. Note that parameters <b>Field</b>, <b>Justify</b>
 and <b>Fill</b> usual for other Put-procedures would have no meaning here.</p>
+
+<blockquote>
+  <P><tt><font color="#0000FF">function</FONT>  Size (<b>Value</b> : <a href="#Strings_Edit.UTF8.UTF8_Code_Point">UTF8_Code_Point</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	) <font color="#0000FF"> return</font>
+  Positive;<font color="#0000FF"><br>
+	function</FONT>  Size (<b>Value</b> :  
+	<a href="#Strings_Edit.UTF8.UTF8_Code_Point_Array">UTF8_Code_Point_Array</a>) <font color="#0000FF"> return</font>
+  Natural;</tt></blockquote>
+<P>This procedure evaluates the length of a UTF-8 encoding of <b>Value</b>. Data_Error is
+propagated when <b>Source</b> is not a valid UTF-8 string.
 
 <blockquote>
   <P><tt><font color="#0000FF">procedure</font> Skip<br>
@@ -1589,133 +1601,129 @@ code points categorization as defined by the
 <a href="http://www.unicode.org">
 		Unicode</a> standard. The enumeration type General_Category represents 
 the categories:<blockquote>
-  <P><tt><font color="#0000FF">type </font>General_Category<font color="#0000FF"> 
-	is</font> (Lu, ...);</tt></blockquote>
+  <P><tt><font color="#0000FF">type </font>General_Category<font color="#0000FF"> is</font> (Lu, ...);</tt></blockquote>
 <P>The type has the following values:</p>
-<TABLE border="5" cellpadding="3" cellspacing="0" style="border-left-width: 0px">
-  <TR>
-    <TD bgcolor="#008080"><font color="#FFFFFF"><b>Value</b></font></TD>
-    <TD bgcolor="#008080"><font color="#FFFFFF"><b>Description</b></font></TD>
-    <TD bgcolor="#008080"><font color="#FFFFFF"><b>Value</b></font></TD>
-    <TD bgcolor="#008080"><font color="#FFFFFF"><b>Description</b></font></TD>
-  </TR>
-  <TR>
-    <TD bgcolor="#FFFFCC"><tt>Lu</tt></TD>
-    <TD bgcolor="#FFFFCC">Uppercase letter</TD>
-    <TD bgcolor="#FFFFCC"><tt>Sm</tt></TD>
-    <TD bgcolor="#FFFFCC">Math symbol</TD>
-  </TR>
-  <TR>
-    <TD bgcolor="#FFFFCC"><tt>Ll</tt></TD>
-    <TD bgcolor="#FFFFCC">Lowercase letter</TD>
-    <TD bgcolor="#FFFFCC"><tt>Sc</tt></TD>
-    <TD bgcolor="#FFFFCC">Currency symbol</TD>
-  </TR>
-  <TR>
-    <TD bgcolor="#FFFFCC"><tt>Lt</tt></TD>
-    <TD bgcolor="#FFFFCC">Titlecase letter</TD>
-    <TD bgcolor="#FFFFCC"><tt>Sk</tt></TD>
-    <TD bgcolor="#FFFFCC">Modifier symbol</TD>
-  </TR>
-  <TR>
-    <TD bgcolor="#FFFFCC"><tt>Lm</tt></TD>
-    <TD bgcolor="#FFFFCC">Modifier letter</TD>
-    <TD bgcolor="#FFFFCC"><tt>So</tt></TD>
-    <TD bgcolor="#FFFFCC">Other symbol</TD>
-  </TR>
-  <TR>
-    <TD bgcolor="#FFFFCC"><tt>Lo</tt></TD>
-    <TD bgcolor="#FFFFCC">Other letter</TD>
-    <TD><tt>Zs</tt></TD>
-    <TD>Space separator</TD>
-  </TR>
-  <TR>
-    <TD><tt>Mn</tt></TD>
-    <TD>Non-spacing mark</TD>
-    <TD><tt>Zl</tt></TD>
-    <TD>Line separator</TD>
-  </TR>
-  <TR>
-    <TD><tt>Mc</tt></TD>
-    <TD>Spacing combining mark</TD>
-    <TD><tt>Zp</tt></TD>
-    <TD>Page separator</TD>
-  </TR>
-  <TR>
-    <TD><tt>Me</tt></TD>
-    <TD>Enclosing mark</TD>
-    <TD bgcolor="#FFFFCC"><tt>Cc</tt></TD>
-    <TD bgcolor="#FFFFCC">Control</TD>
-  </TR>
-  <TR>
-    <TD bgcolor="#FFFFCC"><tt>Nd</tt></TD>
-    <TD bgcolor="#FFFFCC">Decimal digit (number)</TD>
-    <TD bgcolor="#FFFFCC"><tt>Cf</tt></TD>
-    <TD bgcolor="#FFFFCC">Format</TD>
-  </TR>
-  <TR>
-    <TD bgcolor="#FFFFCC"><tt>Nl</tt></TD>
-    <TD bgcolor="#FFFFCC">Letter (number)</TD>
-    <TD bgcolor="#FFFFCC"><tt>Cs</tt></TD>
-    <TD bgcolor="#FFFFCC">Surrogate</TD>
-  </TR>
-  <TR>
-    <TD bgcolor="#FFFFCC"><tt>No</tt></TD>
-    <TD bgcolor="#FFFFCC">Other number</TD>
-    <TD bgcolor="#FFFFCC"><tt>Co</tt></TD>
-    <TD bgcolor="#FFFFCC">Private use</TD>
-  </TR>
-  <TR>
-    <TD><tt>Pc</tt></TD>
-    <TD>Connector punctuation</TD>
-    <TD bgcolor="#FFFFCC"><tt>Cn</tt></TD>
-    <TD bgcolor="#FFFFCC">Not assigned</TD>
-  </TR>
-  <TR>
-    <TD><tt>Pd</tt></TD>
-    <TD>Dash punctuation</TD>
-    <TD colspan="2" rowspan="6" bgcolor="#C0C0C0">&nbsp;</TD>
-  </TR>
-  <TR>
-    <TD><tt>Ps</tt></TD>
-    <TD>Open punctuation</TD>
-  </TR>
-  <TR>
-    <TD><tt>Pe</tt></TD>
-    <TD>Close punctuation</TD>
-  </TR>
-  <TR>
-    <TD><tt>Pi</tt></TD>
-    <TD>Initial quote punctuation</TD>
-  </TR>
-  <TR>
-    <TD><tt>Pf</tt></TD>
-    <TD>Final quote punctuation</TD>
-  </TR>
-  <TR>
-    <TD><tt>Po</tt></TD>
-    <TD>Other punctuation</TD>
-  </TR>
-  </TABLE>
 <blockquote>
-  <P><tt><font color="#0000FF">subtype</font> Letter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <TABLE border="5" cellpadding="3" cellspacing="0">
+  <TR>
+    <TD bgcolor="#008080"><font color="#FFFFFF"><b>Value</b></font></TD>
+    &nbsp;<TD bgcolor="#008080"><font color="#FFFFFF"><b>Description</b></font></TD>
+	<TD bgcolor="#008080"><font color="#FFFFFF"><b>Value</b></font></TD>
+	<TD bgcolor="#008080"><font color="#FFFFFF"><b>Description</b></font></TD>
+	</TR>
+	<TR>
+		<TD bgcolor="#FFFFCC"><tt>Lu</tt></TD>
+		<TD bgcolor="#FFFFCC">Uppercase letter</TD>
+		<TD bgcolor="#FFFFCC"><tt>Sm</tt></TD>
+		<TD bgcolor="#FFFFCC">Math symbol</TD>
+	</TR>
+	<TR>
+		<TD bgcolor="#FFFFCC"><tt>Ll</tt></TD>
+		<TD bgcolor="#FFFFCC">Lowercase letter</TD>
+		<TD bgcolor="#FFFFCC"><tt>Sc</tt></TD>
+		<TD bgcolor="#FFFFCC">Currency symbol</TD>
+	</TR>
+	<TR>
+		<TD bgcolor="#FFFFCC"><tt>Lt</tt></TD>
+		<TD bgcolor="#FFFFCC">Titlecase letter</TD>
+		<TD bgcolor="#FFFFCC"><tt>Sk</tt></TD>
+		<TD bgcolor="#FFFFCC">Modifier symbol</TD>
+	</TR>
+	<TR>
+		<TD bgcolor="#FFFFCC"><tt>Lm</tt></TD>
+		<TD bgcolor="#FFFFCC">Modifier letter</TD>
+		<TD bgcolor="#FFFFCC"><tt>So</tt></TD>
+		<TD bgcolor="#FFFFCC">Other symbol</TD>
+	</TR>
+	<TR>
+		<TD bgcolor="#FFFFCC"><tt>Lo</tt></TD>
+		<TD bgcolor="#FFFFCC">Other letter</TD>
+		<TD><tt>Zs</tt></TD>
+		<TD>Space separator</TD>
+	</TR>
+	<TR>
+		<TD><tt>Mn</tt></TD>
+		<TD>Non-spacing mark</TD>
+		<TD><tt>Zl</tt></TD>
+		<TD>Line separator</TD>
+	</TR>
+	<TR>
+		<TD><tt>Mc</tt></TD>
+		<TD>Spacing combining mark</TD>
+		<TD><tt>Zp</tt></TD>
+		<TD>Page separator</TD>
+	</TR>
+	<TR>
+		<TD><tt>Me</tt></TD>
+		<TD>Enclosing mark</TD>
+		<TD bgcolor="#FFFFCC"><tt>Cc</tt></TD>
+		<TD bgcolor="#FFFFCC">Control</TD>
+	</TR>
+	<TR>
+		<TD bgcolor="#FFFFCC"><tt>Nd</tt></TD>
+		<TD bgcolor="#FFFFCC">Decimal digit (number)</TD>
+		<TD bgcolor="#FFFFCC"><tt>Cf</tt></TD>
+		<TD bgcolor="#FFFFCC">Format</TD>
+	</TR>
+	<TR>
+		<TD bgcolor="#FFFFCC"><tt>Nl</tt></TD>
+		<TD bgcolor="#FFFFCC">Letter (number)</TD>
+		<TD bgcolor="#FFFFCC"><tt>Cs</tt></TD>
+		<TD bgcolor="#FFFFCC">Surrogate</TD>
+	</TR>
+	<TR>
+		<TD bgcolor="#FFFFCC"><tt>No</tt></TD>
+		<TD bgcolor="#FFFFCC">Other number</TD>
+		<TD bgcolor="#FFFFCC"><tt>Co</tt></TD>
+		<TD bgcolor="#FFFFCC">Private use</TD>
+	</TR>
+	<TR>
+		<TD><tt>Pc</tt></TD>
+		<TD>Connector punctuation</TD>
+		<TD bgcolor="#FFFFCC"><tt>Cn</tt></TD>
+		<TD bgcolor="#FFFFCC">Not assigned</TD>
+	</TR>
+	<TR>
+		<TD><tt>Pd</tt></TD>
+		<TD>Dash punctuation</TD>
+		<TD rowspan="6" bgcolor="#C0C0C0">&nbsp;</TD>
+		<TD rowspan="6" bgcolor="#C0C0C0">&nbsp;</TD>
+	</TR>
+	<TR>
+		<TD><tt>Ps</tt></TD>
+		<TD>Open punctuation</TD>
+	</TR>
+	<TR>
+		<TD><tt>Pe</tt></TD>
+		<TD>Close punctuation</TD>
+	</TR>
+	<TR>
+		<TD><tt>Pi</tt></TD>
+		<TD>Initial quote punctuation</TD>
+	</TR>
+	<TR>
+		<TD><tt>Pf</tt></TD>
+		<TD>Final quote punctuation</TD>
+	</TR>
+	<TR>
+		<TD><tt>Po</tt></TD>
+		<TD>Other punctuation</TD>
+	</TR>
+	</TABLE>
+	<P><tt><font color="#0000FF">subtype</font> Letter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<font color="#0000FF">is</font> General_Category <font color="#0000FF">range</font> 
-	Lu..Lo;<br>
-	<font color="#0000FF">subtype</font> Mark&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Lu..Lo;<br><font color="#0000FF">subtype</font> Mark&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<font color="#0000FF">is</font> General_Category <font color="#0000FF">range</font> 
-	Mn..Me;<br>
-	<font color="#0000FF">subtype</font> Mumber&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Mn..Me;<br><font color="#0000FF">subtype</font> Mumber&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<font color="#0000FF">is</font> General_Category <font color="#0000FF">range</font> 
-	Nd..No;<br>
-	<font color="#0000FF">subtype</font> Punctuation <font color="#0000FF">is</font> 
+	Nd..No;<br><font color="#0000FF">subtype</font> Punctuation 
+	<font color="#0000FF">is</font> 
 	General_Category <font color="#0000FF">range</font> Pc..Po;<br>
 	<font color="#0000FF">subtype</font> Symbol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<font color="#0000FF">is</font> General_Category <font color="#0000FF">range</font> 
-	Sm..So;<br>
-	<font color="#0000FF">subtype</font> Separator&nbsp;&nbsp;
+	Sm..So;<br><font color="#0000FF">subtype</font> Separator&nbsp;&nbsp;
 	<font color="#0000FF">is</font> General_Category <font color="#0000FF">range</font> 
-	Zs..Zp;<br>
-	<font color="#0000FF">subtype</font> Other&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Zs..Zp;<br><font color="#0000FF">subtype</font> Other&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<font color="#0000FF">is</font> General_Category <font color="#0000FF">range</font> 
 	Cc..Cn;</tt></blockquote>
 <blockquote>
@@ -4346,7 +4354,7 @@ Value</b>&nbsp;&nbsp; : Number<br>
 when <b>Pointer</b> is out of the range <b>Data</b>'First..<b>Data</b>'Last+1. End_Error is propagated when there is no 
 room for output.</p>
 The following instances of the package are provided:<br>
-<TABLE border="5" cellpadding="3" cellspacing="0" style="border-left-width: 0px">
+<TABLE border="5" cellpadding="3" cellspacing="0">
   <TR>
     <TD bgcolor="#008080"><FONT color="#FFFFFF"><B>Package</B></FONT></TD>
     <TD bgcolor="#008080"><font color="#FFFFFF"><b>Number</b></font></TD>
@@ -4441,7 +4449,7 @@ propagated when <b>Value</b> is negative. Layout_Error is propagated
 when <b>Pointer</b> is out of the range <b>Data</b>'First..<b>Data</b>'Last+1. End_Error is propagated when there is no 
 room for output.</p>
 The following instances of the package are provided:<br>
-<TABLE border="5" cellpadding="3" cellspacing="0" style="border-left-width: 0px">
+<TABLE border="5" cellpadding="3" cellspacing="0">
   <TR>
     <TD bgcolor="#008080"><FONT color="#FFFFFF"><B>Package</B></FONT></TD>
     <TD bgcolor="#008080"><font color="#FFFFFF"><b>Number</b></font></TD>
@@ -4515,7 +4523,7 @@ propagated when <b>Value</b> is negative. Layout_Error is propagated
 when <b>Pointer</b> is out of the range <b>Data</b>'First..<b>Data</b>'Last+1. End_Error is propagated when there is no 
 room for output.</p>
 The following instances of the package are provided:<br>
-<TABLE border="5" cellpadding="3" cellspacing="0" style="border-left-width: 0px">
+<TABLE border="5" cellpadding="3" cellspacing="0">
   <TR>
     <TD bgcolor="#008080"><FONT color="#FFFFFF"><B>Package</B></FONT></TD>
     <TD bgcolor="#008080"><font color="#FFFFFF"><b>Number</b></font></TD>
@@ -4631,7 +4639,8 @@ On the basis of this function Boolean-valued comparisons are defined:</p><blockq
 	<b>Right</b> : String) <font color="#0000FF">return</font> Boolean;</tt></blockquote>
 <hr>
 <p align="right">
-<a name="12"></a><a href="#11"><IMG src="prev.gif" alt="[Back]" width="29" height="29"></a><A href="#17"><IMG src="index.gif"
+<a name="12"></a><a href="#11"><IMG src="prev.gif" alt="[Back]" width="29" height="29"></a><A href="#18"
+><IMG src="index.gif"
  alt="[TOC]" width="29" height="29"></A><a href="#13"><IMG src="next.gif" alt="[Next]" width="29" height="29"></a></p>
 <H2>12. Standard encodings</H2>
 <P>This section describes packages implementing standard encodings.</p>
@@ -5596,8 +5605,10 @@ is propagated if the value of <b>Pointer</b> is not in
 
 <hr>
 <p align="right">
-<a name="13"></a><a href="#12"><IMG src="prev.gif" alt="[Back]" width="29" height="29"></a><A href="#17"><IMG src="index.gif"
- alt="[TOC]" width="29" height="29"></A><a href="#14"><IMG src="next.gif" alt="[Next]" width="29" height="29"></a></p>
+<a name="13"></a><a href="#12"><IMG src="prev.gif" alt="[Back]" width="29" height="29"></a><A href="#18"
+><IMG src="index.gif"
+ alt="[TOC]" width="29" height="29"></A><A href="#14"
+><IMG src="next.gif" alt="[Next]" width="29" height="29"></a></p>
 <H2>13. ChaCha20 cipher</H2>
 <P><a name="Strings_Edit.ChaCha20"></a>The package
 <a href="#Strings_Edit.ChaCha20">Strings_Edit.ChaCha20</a> provides 
@@ -5863,10 +5874,850 @@ fails Data_Error is propagated. These procedures can be called consequently
 without setting another key-nonce pair into the cipher.</p>
 <hr>
 <p align="right">
-<a name="14"></a><a href="#13"><IMG src="prev.gif" alt="[Back]" width="29" height="29"></a><A href="#17"><IMG src="index.gif"
- alt="[TOC]" width="29" height="29"></A><a href="#15"><IMG src="next.gif" alt="[Next]" width="29" height="29"></a></p>
-<H2>14. Packages</H2>
-<TABLE border="5" cellpadding="3" cellspacing="0" style="border-left-width: 0px">
+<a name="14"></a><a href="#13"><IMG src="prev.gif" alt="[Back]" width="29" height="29"></a><A href="#18"
+><IMG src="index.gif"
+ alt="[TOC]" width="29" height="29"></A><A href="#16"
+><IMG src="next.gif" alt="[Next]" width="29" height="29"></a></p>
+<H2>14. RFC 3897 (Internationalized Resource Identifiers)</H2>
+<p><a name="Strings_Edit.RFC_3897"></a>The package
+<a href="#Strings_Edit.RFC_3897">Strings_Edit.RFC_3897</a> provides formatted 
+I/O for entities defined in the
+<a href="https://datatracker.ietf.org/doc/html/rfc3987">RFC 3897</a> standard. 
+An internationalized resource identifier extends the universal resource 
+identifier (URI) defined in
+<a href="https://tools.ietf.org/html/rfc398">RFC 3986</a>. In particular it supports Unicode characters. An example of 
+resource identifier is:</p>
+
+<blockquote>
+<table border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td colspan="2"><u><font color="#800080"><tt>https</tt></font></u></td>
+		<td><tt>://</tt></td>
+		<td><u><font color="#008000"><tt>tools.ietf.org</tt></font></u></td>
+		<td><u><font color="#008000"><tt>:</tt></font></u></td>
+		<td colspan="2"><u><font color="#008000"><tt>80</tt></font></u></td>
+		<td><u><font color="#008000"><tt>/</tt></font></u></td>
+		<td><u><font color="#008000"><tt>html/rfc3986</tt></font></u></td>
+		<td><tt>?</tt></td>
+		<td colspan="2"><u><font color="#FF0000"><tt>section-3.2.2</tt></font></u></td>
+		<td><tt>#</tt></td>
+		<td colspan="2"><u><font color="#0000FF"><tt>paragraph-1.5</tt></font></u></td>
+	</tr>
+	<tr>
+		<td style="border-left-style: none; border-left-width: medium">&nbsp;</td>
+		<td style="border-left-style: solid; border-left-width: 1px; border-right-style: none; border-right-width: medium">&nbsp;</td>
+		<td style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium">&nbsp;</td>
+		<td style="border-left-style: none; border-left-width: medium; border-right-style:none; border-right-width:medium" colspan="3">&nbsp;</td>
+		<td style="border-left-style: solid; border-left-width: 1px" colspan="3">&nbsp;</td>
+		<td style="border-right-style: none; border-right-width: medium">&nbsp;</td>
+		<td style="border-left-style: none; border-left-width: medium">&nbsp;</td>
+		<td style="border-left-style: solid; border-left-width: 1px; border-right-style:none; border-right-width:medium">&nbsp;</td>
+		<td style="border-left-style: none; border-left-width: medium; border-right-style:none; border-right-width:medium">&nbsp;</td>
+		<td style="border-left-style: none; border-left-width: medium">&nbsp;</td>
+		<td style="border-left-style: solid; border-left-width: 1px">&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="3"><i>Scheme</i></td>
+		<td colspan="6" align="center"><i>Hierarchical part</i></td>
+		<td>&nbsp;</td>
+		<td colspan="2" align="center"><i>Query</i></td>
+		<td align="center">&nbsp;</td>
+		<td colspan="2" align="center"><i>Fragment</i></td>
+	</tr>
+</table>
+</blockquote>
+<p>The IRI consists of four major parts:</p>
+<ul>
+	<li>Scheme</li>
+	<li>Hierarchical part</li>
+	<li>Query</li>
+	<li>Fragment</li>
+</ul>
+<p>Only scheme is mandatory.</p>
+<h3><a name="14.1"></a>14.1. IPv4 address</h3>
+<blockquote>
+	<P><tt><font color="#0000FF"><a name="Strings_Edit.RFC_3897.IPv4_Octet"></a>
+	type</font> IPv4_Octet <font color="#0000FF">is mod</font>
+	<font color="#800000">2</font>**<font color="#800000">8</font>;<br>
+	<font color="#0000FF"><a name="Strings_Edit.RFC_3897.IPv4_Address"></a>type</font> 
+	IPv4_Address <font color="#0000FF">is array</font> (<font color="#800000">1</font>..<font color="#800000">4</font>)
+	<font color="#0000FF">of</font> <a href="#Strings_Edit.RFC_3897.IPv4_Octet">
+	IPv4_Octet</a>;</tt></blockquote>
+<P>The following subprograms are provided:</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">procedure</FONT> Get<BR>
+  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;( &nbsp;<b>Source</b>
+  &nbsp;: String;<BR>
+  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+  &nbsp;<b>Pointer</b> : <font color="#0000FF">in
+  out</FONT> Integer<BR>
+  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+  &nbsp;<b>Value</b> &nbsp;&nbsp;: <font color="#0000FF">out</FONT> 
+	<a href="#Strings_Edit.RFC_3897.IPv4_Address">IPv4_Address</a>;<BR>
+  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;);</tt></p>
+</BLOCKQUOTE>
+<P>
+This procedure gets an IPv4 address from the string
+<b>Source</b>. The process starts from <b>Source </b>(<b>Pointer</b>). Data_Error indicates a syntax error in the 
+address. The syntax requires presence of all four octets in decimal 
+representation 0..255. No leading zeros are allowed. End_Error is raised when
+no address was detected. Layout_Error is propagated when
+<b>Pointer</b> is not in the range <b>Source</b>'First
+.. <b>Source</b>'Last + 1. See also description of
+<A href="#Gets">get procedures</A>.</p>
+<BLOCKQUOTE>
+  <tt><font color="#0000FF">function</FONT> Image (<b>Value</b>&nbsp;:
+	<a href="#Strings_Edit.RFC_3897.IPv4_Address">IPv4_Address</a>)&nbsp;<font color="#0000FF">return</FONT> String;</tt></BLOCKQUOTE>
+<P>
+This function converts <b>Value</b> to string.<BLOCKQUOTE>
+  <tt><font color="#0000FF">procedure</FONT> Put<BR>
+  &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;(
+  &nbsp;<b>Destination</b> : <font color="#0000FF">in
+  out</FONT> String;<BR>
+  &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+  &nbsp;&nbsp;<b>Pointer</b>&nbsp; &nbsp;&nbsp; : <font color="#0000FF">in
+  out</FONT> Integer;<BR>
+  &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+  &nbsp;&nbsp;<b>Value</b>&nbsp; &nbsp;&nbsp; &nbsp; : 
+	<a href="#Strings_Edit.RFC_3897.IPv4_Address">IPv4_Address</a>;<br>
+&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>
+Field</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : Natural&nbsp;&nbsp; :=
+<font color="#800000">0</font>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>
+Justify</b>&nbsp;&nbsp;&nbsp;&nbsp; : Alignment := Left;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Fill</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+: Character := ' '<BR>
+  &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;);</tt></BLOCKQUOTE>
+<P>
+This procedure places the IPv4 address specified by the parameter
+<b>Value</b> into the output string <b>Destination</b>.
+The string is written starting from <b>Destination </b>(<b>Pointer</b>). The exception Layout_Error is propagated when
+<b>Pointer</b> is not in <b>Destination</b>'Range or there is no room for the 
+output.</p>
+<BLOCKQUOTE>
+  <tt><font color="#0000FF">function</FONT> Value&nbsp;(<b>Source</b>&nbsp;: String) <font color="#0000FF">return</FONT>  
+	<a href="#Strings_Edit.RFC_3897.IPv4_Address">IPv4_Address</a>;</tt></BLOCKQUOTE>
+<P>
+This function gets an IPv4 address from the string <b>Source</b>.
+The address can be surrounded by spaces and tabs. The whole string
+<b>Source</b> should be matched. Otherwise the exception Data_Error
+is propagated. Also Data_Error indicates a syntax error in the address. End_Error is raised when no
+address was detected.</p>
+<h3><a name="14.2"></a>14.2. IPv6 
+address</h3>
+<blockquote>
+	<P><tt><font color="#0000FF"><a name="Strings_Edit.RFC_3897.IPv6_Group">
+	</a>type</font> IPv6_Group <font color="#0000FF">is mod</font>
+	<font color="#800000">2</font>**<font color="#800000">16</font>;<br>
+	<font color="#0000FF"><a name="Strings_Edit.RFC_3897.IPv6_Address"></a>type</font> 
+	IPv6_Address <font color="#0000FF">is array</font> (<font color="#800000">1</font>..<font color="#800000">8</font>)
+	<font color="#0000FF">of</font> <a href="#Strings_Edit.RFC_3897.IPv6_Group">IPv6_Group</a>;</tt></blockquote>
+<P>The following subprograms are provided:</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">procedure</FONT> Get<BR>
+  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;( &nbsp;<b>Source</b>
+  &nbsp;: String;<BR>
+  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+  &nbsp;<b>Pointer</b> : <font color="#0000FF">in
+  out</FONT> Integer<BR>
+  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+  &nbsp;<b>Value</b> &nbsp;&nbsp;: <font color="#0000FF">out</FONT> 
+	<a href="#Strings_Edit.RFC_3897.IPv6_Address">IPv6_Address</a>;<BR>
+  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;);</tt></p>
+</BLOCKQUOTE>
+<P>
+This procedure gets an IPv6 address from the string
+<b>Source</b>. The process starts from <b>Source </b>(<b>Pointer</b>). Data_Error indicates a syntax error in the 
+address. The syntax is groups of hexadecimal numbers separated by 
+colon. A colon can be used to abbreviate a sequence of zero group. For example 
+<tt>1000:ef00::45</tt> is equivalent to 
+<tt>1000:ef00:0000:0000:0000:0000:0000:0045</tt>. All 8 groups must be defined. 
+The last two groups can be specified as an IPv4 address. For example <tt>11::5:6:1.2.3.4</tt> 
+is equivalent to <tt>0011:0000:0000:0000:0005:0006:0102:0304</tt>. End_Error is raised when
+no address was detected. Layout_Error is propagated when
+<b>Pointer</b> is not in the range <b>Source</b>'First
+.. <b>Source</b>'Last + 1. See also description of
+<A href="#Gets">get procedures</A>.</p>
+<BLOCKQUOTE>
+  <tt><font color="#0000FF">function</FONT> Image (<b>Value</b>&nbsp;:
+	<a href="#Strings_Edit.RFC_3897.IPv6_Address">IPv6_Address</a>)&nbsp;<font color="#0000FF">return</FONT> String;</tt></BLOCKQUOTE>
+<P>
+This function converts <b>Value</b> to string.<BLOCKQUOTE>
+  <tt><font color="#0000FF">procedure</FONT> Put<BR>
+  &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;(
+  &nbsp;<b>Destination</b> : <font color="#0000FF">in
+  out</FONT> String;<BR>
+  &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+  &nbsp;&nbsp;<b>Pointer</b>&nbsp; &nbsp;&nbsp; : <font color="#0000FF">in
+  out</FONT> Integer;<BR>
+  &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+  &nbsp;&nbsp;<b>Value</b>&nbsp; &nbsp;&nbsp; &nbsp; : 
+	<a href="#Strings_Edit.RFC_3897.IPv6_Address">IPv6_Address</a>;<br>
+&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>
+Field</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : Natural&nbsp;&nbsp; :=
+<font color="#800000">0</font>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>
+Justify</b>&nbsp;&nbsp;&nbsp;&nbsp; : Alignment := Left;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Fill</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+: Character := ' '<BR>
+  &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;);</tt></BLOCKQUOTE>
+<P>
+This procedure places the IPv4 address specified by the parameter
+<b>Value</b> into the output string <b>Destination</b>.
+The string is written starting from <b>Destination </b>(<b>Pointer</b>). The exception Layout_Error is propagated when
+<b>Pointer</b> is not in <b>Destination</b>'Range or there is no room for the 
+output. The procedure abbreviates the longest sequence of zero groups as colon.</p>
+<BLOCKQUOTE>
+  <tt><font color="#0000FF">function</FONT> Value&nbsp;(<b>Source</b>&nbsp;: String) <font color="#0000FF">return</FONT>  
+	<a href="#Strings_Edit.RFC_3897.IPv6_Address">IPv6_Address</a>;</tt></BLOCKQUOTE>
+<P>
+This function gets an IPv6 address from the string <b>Source</b>.
+The address&nbsp;can be surrounded by spaces and tabs. The whole string
+<b>Source</b> should be matched. Otherwise the exception Data_Error
+is propagated. Also Data_Error indicates a syntax error in the address. End_Error is raised when no
+address was detected.</p>
+<h3><a name="14.3"></a>14.3. IP 
+host</h3><P>
+The host type used in the <a href="#Strings_Edit.RFC_3897.IRI">IRI</a> is defined as follows:<blockquote>
+	<P><tt><font color="#0000FF"><a name="Strings_Edit.RFC_3897.IP_Host_Type">
+	</a>type</font> IP_Host_Type <font color="#0000FF">is</font> (IPv6_Host, IPv4_Host, Regular_Name_Host);</tt></blockquote>
+<P>The host can be:</p>
+<ul>
+	<li><i>IPv6_Host</i> containing an IPv6 address;</li>
+	<li><i>IPv4_Host</i> containing an IPv4 address;</li>
+	<li><i>Regular_Name_Host</i> to be resolved by a DNS.</li>
+</ul>
+<P>The host in an <a href="#Strings_Edit.RFC_3897.IRI">IRI</a> 
+is an IP address or name. For example <tt>&quot;<font color="#FF0000">192.168.0.5</font>&quot;</tt>. 
+The type is declared as:</p>
+<blockquote>
+	<P><tt><font color="#0000FF"><a name="Strings_Edit.RFC_3897.IP_Host"></a>
+	type</font> IP_Host (Kind_Of : IP_Host_Type; Length : Natural) 
+	<font color="#0000FF">is record<br>
+	&nbsp;&nbsp;
+	case</font> Kind_Of <font color="#0000FF">is<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	when</font> IPv4_Host =&gt;<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	V4_Address : <a href="#Strings_Edit.RFC_3897.IPv4_Address">IPv4_Address</a>;<br>
+	<font color="#0000FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	when</font> IPv6_Host =&gt;<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	V6_Address : <a href="#Strings_Edit.RFC_3897.IPv6_Address">IPv6_Address</a>;<br>
+	<font color="#0000FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	when</font> Regular_Name_Host =&gt;<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Name : String (<font color="#800000">1</font>..Length);<br>
+	<font color="#0000FF">&nbsp;&nbsp;
+	end case</font>;<br>
+	<font color="#0000FF">end record</font>;</tt></blockquote>
+<P>The following subprograms are provided for construction of a host:</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> Create (<b>Address</b> : <a href="#Strings_Edit.RFC_3897.IPv4_Address">IPv4_Address</a>)
+	<font color="#0000FF">return</font> <a href="#Strings_Edit.RFC_3897.IP_Host">
+	IP_Host</a>;<br>
+	<font color="#0000FF">function</font> Create (<b>Address</b> : <a href="#Strings_Edit.RFC_3897.IPv6_Address">IPv6_Address</a>)
+	<font color="#0000FF">return</font> <a href="#Strings_Edit.RFC_3897.IP_Host">
+	IP_Host</a>;<br>
+	<font color="#0000FF">function</font> Create (<b>Name</b>&nbsp;&nbsp;&nbsp; 
+	: String&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ) <font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Host">IP_Host</a>;</tt></p>
+</BLOCKQUOTE>
+<P>A host can be constructed from an IP address or else a name.</p>
+<h3><a name="14.4"></a>14.4. IP 
+path</h3><P>
+The path&nbsp; type used in the <a href="#Strings_Edit.RFC_3897.IRI">IRI</a> is defined as follows:<blockquote>
+	<P><tt><font color="#0000FF"><a name="Strings_Edit.RFC_3897.IP_Path">
+	</a>type</font> IP_Path (Length : Integer) <font color="#0000FF">is record<br>
+&nbsp;&nbsp; case</font> Length <font color="#0000FF">is<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; when </font><font color="#800000">0</font>..Integer'Last 
+	=&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Value : String (<font color="#800000">1</font>..Length);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#0000FF">when others</font> =&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#0000FF">null</font>;<br>
+&nbsp;&nbsp; <font color="#0000FF">end case</font>;<br>
+	<font color="#0000FF">end record</font>;</tt></blockquote>
+<P>A path consists of segments. Segments in a path are separated by /. When <i>
+Length</i> is negative path contains no segments. There is a constant of such a 
+path:</p><blockquote>
+	<P><tt>Null_Path : <font color="#0000FF">constant</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Path">IP_Path</a>;</tt></blockquote>
+<P>When <i>Length</i> is zero the first segment is empty. The following subprograms are provided for path:</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> &quot;<font color="#FF0000">/</font>&quot; 
+	(<b>Left</b> : String;&nbsp; <b>Right</b> : String) <font color="#0000FF">
+	return</font> <a href="#Strings_Edit.RFC_3897.IP_Path">IP_Path</a>;<br>
+	<font color="#0000FF">function</font> &quot;<font color="#FF0000">/</font>&quot; (<b>Left</b> 
+	: <a href="#Strings_Edit.RFC_3897.IP_Path">IP_Path</a>; <b>Right</b> : 
+	String) <font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Path">IP_Path</a>;</tt></p>
+</BLOCKQUOTE>
+<P>These functions create a path. For example:</p>
+<blockquote>
+	<P><tt>&quot;<font color="#FF0000">A</font>&quot; 
+/ &quot;<font color="#FF0000">B</font>&quot; -- A/B</tt></p>
+	<p><tt><font color="#0000FF">function</font> Create (<b>Value</b> 
+	: String) <font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Path">IP_Path</a>;</tt></p>
+</blockquote>
+<P>This function creates a path from string.</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> Get_Segment (<b>Value</b> :
+	<a href="#Strings_Edit.RFC_3897.IP_Path">IP_Path</a>; <b>No</b> : Positive)
+	<font color="#0000FF">return</font> String;</tt></p>
+</BLOCKQUOTE>
+<P>This function returns path segment by its number. Constraint_Error is 
+propagated when there is no such segment.</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> Get_Suffix (<b>Value</b> :
+	<a href="#Strings_Edit.RFC_3897.IP_Path">IP_Path</a>)
+	<font color="#0000FF">return</font> <a href="#Strings_Edit.RFC_3897.IP_Path">
+	IP_Path</a>;</tt></p>
+</BLOCKQUOTE>
+<P>This function returns the path without the first segment.</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> Get_Length (<b>Value</b> :
+	<a href="#Strings_Edit.RFC_3897.IP_Path">IP_Path</a>)
+	<font color="#0000FF">return </font>Natural;</tt></p>
+</BLOCKQUOTE>
+<P>This function return the number of segments in the path.</p>
+<h3><a name="14.5"></a>14.5. IP Authority</h3><P>
+The type representing the <a href="#Strings_Edit.RFC_3897.IRI">IRI</a> authority 
+part is defined as follows:<blockquote>
+	<P><tt><font color="#0000FF"><a name="Strings_Edit.RFC_3897.IP_Port"></a>
+	type </font> IP_Port<font color="#0000FF"> is mod </font> 
+	<font color="#800000">2</font>**<font color="#800000">16</font>;<font color="#0000FF"><br>
+	<a name="Strings_Edit.RFC_3897.IP_Authority"></a>type</font> IP_Authority<br>
+&nbsp;&nbsp;&nbsp;&nbsp; (&nbsp; Kind_Of&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	: <a href="#Strings_Edit.RFC_3897.IP_Host_Type">IP_Host_Type</a>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Regular_Name_Length : Natural;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; User_Info_Length&nbsp;&nbsp;&nbsp; : 
+	Natural;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Default_Port&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	: Boolean<br>
+&nbsp;&nbsp;&nbsp;&nbsp; )&nbsp; <font color="#0000FF">is<br>
+	record</font><br>
+&nbsp;&nbsp; User_Info : String&nbsp; (<font color="#800000">1</font>..User_Info_Length);<br>
+&nbsp;&nbsp; Host&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :
+	<a href="#Strings_Edit.RFC_3897.IP_Host">IP_Host</a> (Kind_Of, 
+	Regular_Name_Length);<br>
+&nbsp;&nbsp; <font color="#0000FF">case</font> Default_Port
+	<font color="#0000FF">is<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; when</font> True =&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#0000FF">null</font>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#0000FF">when</font> False =&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Port :
+	<a href="#Strings_Edit.RFC_3897.IP_Port">IP_Port</a>;<br>
+&nbsp;&nbsp; <font color="#0000FF">end case</font>;<br>
+	<font color="#0000FF">end record</font>;</tt></blockquote>
+<P>
+The authority consists of user information, host and optional port number. It can be constructed 
+using the following subroutines:<blockquote>
+	<P><tt><font color="#0000FF">function</font> &quot;<font color="#FF0000">*</font>&quot; 
+	(<b>User_Info</b> : String; <b>Authority</b> :
+	<a href="#Strings_Edit.RFC_3897.IP_Authority">IP_Authority</a>)<font color="#0000FF"> return</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Authority">IP_Authority</a>;</tt></blockquote>
+<P>This function adds user information part to the authority. If <b>Authority</b> 
+already has user information then <b>User_Info</b> prefixes it in the result. 
+The user information is separated in the authority by <tt>@</tt>.</p>
+<blockquote>
+	<P><tt><font color="#0000FF">function</font> &quot;<font color="#FF0000">*</font>&quot; 
+	(<b>User_Info</b> : String; <b>Host</b> :
+	<a href="#Strings_Edit.RFC_3897.IP_Host">IP_Host</a>)<font color="#0000FF"> return</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Authority">IP_Authority</a>;<font color="#0000FF"><br>function</font> &quot;<font color="#FF0000">*</font>&quot; 
+	(<b>User_Info</b> : String; <b>Name</b> : String )<font color="#0000FF"> return</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Authority">IP_Authority</a>;</tt></blockquote>
+<P>This function constructs authority from user information and host or name. 
+For example:</p>
+<blockquote>
+	<P><tt>&quot;<font color="#FF0000">joe</font>&quot; * &quot;<font color="#FF0000">example.com</font>&quot; 
+	-- joe@example.com</tt></p>
+</blockquote>
+<blockquote>
+	<P><tt><font color="#0000FF">function</font> &quot;<font color="#FF0000">/</font>&quot; 
+	(<b>Name&nbsp;&nbsp; </b> &nbsp;: String; <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Port</b> :
+	<a href="#Strings_Edit.RFC_3897.IP_Port">IP_Port</a>) <font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Authority">IP_Authority</a>;<br>
+	<font color="#0000FF">function</font> &quot;<font color="#FF0000">/</font>&quot; (<b>Address</b> 
+	: <a href="#Strings_Edit.RFC_3897.IPv4_Address">IPv4_Address</a>; <b>Port</b> 
+	: <a href="#Strings_Edit.RFC_3897.IP_Port">IP_Port</a>) <font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Authority">IP_Authority</a>;<br>
+	<font color="#0000FF">function</font> &quot;<font color="#FF0000">/</font>&quot; (<b>Address</b> 
+	: <a href="#Strings_Edit.RFC_3897.IPv6_Address">IPv6_Address</a>; <b>Port</b> 
+	: <a href="#Strings_Edit.RFC_3897.IP_Port">IP_Port</a>) <font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Authority">IP_Authority</a>;</tt></blockquote>
+<P>These functions construct authority from a host specified as an address or 
+name and a port number. For example:</p>
+<blockquote>
+	<P><tt>IPv4_Address'(<font color="#800000">192</font>.<font color="#800000">168</font>.<font color="#800000">0</font>.<font color="#800000">5</font>) 
+	/ <font color="#800000">80</font> -- 192.168.0.5:80</tt></p>
+	<P><tt><font color="#0000FF">function</font> &quot;<font color="#FF0000">/</font>&quot; 
+	(<b>Authority</b> : <a href="#Strings_Edit.RFC_3897.IP_Authority">IP_Authority</a>; 
+	<b>Port</b> : <a href="#Strings_Edit.RFC_3897.IP_Port">IP_Port</a>)<font color="#0000FF"> return</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Authority">IP_Authority</a>;</tt></blockquote>
+<P>These function adds port to <b>Authority</b>. Constraint_Error is propagated 
+when a port was already set.</p>
+<blockquote>
+	<P><tt><font color="#0000FF">function</font> Create (<b>Name</b> : String)
+	<font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Authority">IP_Authority</a>;</tt></blockquote>
+<P>
+This function creates an authority from the host name.<h3><a name="14.6"></a>14.6. 
+Hierarchical part</h3>
+<P>The type representing the <a href="#Strings_Edit.RFC_3897.IRI">IRI</a> 
+hierarchical part is defined as follows:<blockquote>
+	<P><tt><font color="#0000FF">
+	<a name="Strings_Edit.RFC_3897.IP_Hierarchical_Part_Type"></a>type</font> 
+	IP_Hierarchical_Part_Type is<br>
+&nbsp;&nbsp;&nbsp;&nbsp; (&nbsp; Authority_Part,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Absolute_Part,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rootless_Part<br>
+&nbsp;&nbsp;&nbsp;&nbsp; );<br>
+	<font color="#0000FF"><a name="Strings_Edit.RFC_3897.IP_Hierarchical_Part">
+	</a>type</font> IP_Hierarchical_Part<br>
+&nbsp;&nbsp;&nbsp;&nbsp; (&nbsp; Kind_Of&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	: <a href="#Strings_Edit.RFC_3897.IP_Hierarchical_Part_Type">
+	IP_Hierarchical_Part_Type</a>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Authority_Kind_Of&nbsp;&nbsp; :
+	<a href="#Strings_Edit.RFC_3897.IP_Host_Type">IP_Host_Type</a>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Regular_Name_Length : Natural;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; User_Info_Length&nbsp;&nbsp;&nbsp; : 
+	Natural;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Default_Port&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	: Boolean;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Path_Length&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	: Integer<br>
+&nbsp;&nbsp;&nbsp;&nbsp; )&nbsp; <font color="#0000FF">is</font><br>
+	<font color="#0000FF">record</font><br>
+&nbsp;&nbsp; Path : <a href="#Strings_Edit.RFC_3897.IP_Path">IP_Path</a> (Path_Length);<br>
+&nbsp;&nbsp; <font color="#0000FF">case</font> Kind_Of <font color="#0000FF">is<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; when</font> Authority_Part =&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Authority :
+	<a href="#Strings_Edit.RFC_3897.IP_Authority">IP_Authority</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	(&nbsp; Kind_Of&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	=&gt; Authority_Kind_Of,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	Regular_Name_Length =&gt; Regular_Name_Length,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	User_Info_Length&nbsp;&nbsp;&nbsp; =&gt; User_Info_Length,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	Default_Port&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =&gt; Default_Port<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#0000FF">when</font> Absolute_Part | 
+	Rootless_Part =&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#0000FF">null</font>;<br>
+&nbsp;&nbsp; <font color="#0000FF">end case</font>;<br>
+	<font color="#0000FF">end record</font>;</tt></blockquote>
+<P>The hierarchical part contains an authority part and path. Without authority 
+the path can be either absolute or relative. The leading separator slash (/) is never 
+present in the field <i>Path</i>. For example, if <i>Path</i> is <tt>&quot;<font color="#FF0000">A/B</font>&quot;</tt> 
+then the hierarchical part's is:<br>
+<blockquote>
+<TABLE border="5" cellpadding="3" cellspacing="0">
+  <TR>
+    <TD bgcolor="#008080"><FONT color="#FFFFFF"><B>Discriminant</B></FONT></TD>
+    <TD bgcolor="#008080"><font color="#FFFFFF"><b>Examples</b></font></TD>
+  </TR>
+	<tr>
+    <TD><i>Authority_Part</i></TD>
+    <TD> <tt>https://www.example.com/<u>A/B</u></tt></TD>
+  </tr>
+	<tr>
+    <TD><i>Absolute_Part</i></TD>
+    <TD> <tt>test:/<u>A/B</u></tt></TD>
+  </tr>
+	<tr>
+    <TD><i>Roothless_Part</i></TD>
+    <TD> <tt>test:<u>A/B</u></tt></TD>
+  </tr>
+</TABLE>
+</blockquote>
+<P>Absolute and rootless paths must start with a non-empty segment. The 
+following segments can be empty. The authority path can start with an empty 
+directory like in <tt>&quot;...<font color="#FF0000">//A/B</font>&quot;</tt>. A 
+rootless path can be empty. The discrimiant <i>Path_Length</i> when negative 
+indicates an empty path in that case <i>Kind_Of</i> is <i>Rootless_Path</i>.</p>
+<P>The following subroutines are used 
+to construct a hierarchical part:</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> &quot;<font color="#FF0000">/</font>&quot; 
+	(Authority : 
+	<a href="#Strings_Edit.RFC_3897.IP_Authority">IP_Authority</a>; <b>Path</b> : String) <font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Hierarchical_Part">IP_Hierarchical_Part</a>;</tt></p>
+</BLOCKQUOTE>
+<p>This function constructs a hierarchical part from authority and path. For 
+example:</p>
+<blockquote>
+	<p><tt>&quot;<font color="#FF0000">www.example.com</font>&quot; 
+/ <font color="#800000">80</font> / &quot;<font color="#FF0000">watch</font>&quot; 
+	-- www.example.com:80/watch</tt></p>
+	<p><tt><font color="#0000FF">function</font> &quot;<font color="#FF0000">/</font>&quot; 
+	(<b>Address</b> : <a href="#Strings_Edit.RFC_3897.IPv4_Address">IPv4_Address</a>;
+	<b>Path</b> : String) <font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Hierarchical_Part">IP_Hierarchical_Part</a>;<br>
+	<font color="#0000FF">function</font> &quot;<font color="#FF0000">/</font>&quot; (<b>Address</b> 
+	: <a href="#Strings_Edit.RFC_3897.IPv6_Address">IPv6_Address</a>; <b>Path</b> 
+	: String) <font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Hierarchical_Part">IP_Hierarchical_Part</a>;</tt></p>
+</blockquote>
+<p>These functions create a hierarchical part from address and path. For 
+example:</p>
+<blockquote>
+	<p><tt>IPv6_Address'(<font color="#800000">16#2000#</font>,
+	<font color="#800000">16#DA#</font>, <font color="#0000FF">others</font> =&gt;
+	<font color="#800000">0</font>) / &quot;<font color="#FF0000">watch</font>&quot; 
+	-- [2000:da::]/watch</tt></p>
+	<p><tt><font color="#0000FF">function</font> &quot;<font color="#FF0000">/</font>&quot; 
+	(<b>Hierarchical</b> : String; <b>Path</b> : String) <font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Hierarchical_Part">IP_Hierarchical_Part</a>;</tt></p>
+</blockquote>
+<p>This function adds path to a hierarchical part.</p>
+<blockquote>
+	<p><tt>No_Authority : <font color="#0000FF">constant</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Hierarchical_Part">IP_Hierarchical_Part</a>;</tt></p>
+</blockquote>
+<p>This constant is a hierarchical part without authority part. For example <tt>
+empty:</tt>. Only scheme <i>empty</i> is present.</p>
+<blockquote>
+	<p><tt><font color="#0000FF">function</font> Create (<b>Authority</b> :
+	<a href="#Strings_Edit.RFC_3897.IP_Authority">IP_Authority</a>)
+	<font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Hierarchical_Part">IP_Hierarchical_Part</a>;</tt></p>
+</blockquote>
+<p>This function creates a hierarchical part from authority.</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> Get_Segment (<b>Value</b> :
+	<a href="#Strings_Edit.RFC_3897.IP_Hierarchical_Part">IP_Hierarchical_Part</a>;
+	<b>No</b> : Positive) <font color="#0000FF">return</font> String;</tt></p>
+</BLOCKQUOTE>
+<P>This function returns path segment by its number. Constraint_Error is 
+propagated when there is no such segment.</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> Get_Suffix (<b>Value</b> :
+	<a href="#Strings_Edit.RFC_3897.IP_Hierarchical_Part">IP_Hierarchical_Part</a>)
+	<font color="#0000FF">return</font> <a href="#Strings_Edit.RFC_3897.IP_Path">
+	IP_Path</a>;</tt></p>
+</BLOCKQUOTE>
+<P>This function returns the path without the first segment.</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> Get_Length (<b>Value</b> :
+	<a href="#Strings_Edit.RFC_3897.IP_Hierarchical_Part">IP_Hierarchical_Part</a>)
+	<font color="#0000FF">return </font>Natural;</tt></p>
+</BLOCKQUOTE>
+<p>This function returns the length of path in the hierarchical <b>Value</b>.</p>
+<h3><a name="14.7"></a>14.7. IRI 
+(Internationalized Resource Identifiers)</h3><P>
+The type <a href="#Strings_Edit.RFC_3897.IRI">IRI</a> is defined as follows:<blockquote>
+	<P><tt><font color="#0000FF"><a name="Strings_Edit.RFC_3897.IRI"></a>type</font> IRI<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;
+	(&nbsp; Hierarchical_Kind_Of : 
+	<a href="#Strings_Edit.RFC_3897.IP_Hierarchical_Part_Type">
+	IP_Hierarchical_Part_Type</a>;<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Authority_Kind_Of&nbsp;&nbsp;&nbsp; : 
+	<a href="#Strings_Edit.RFC_3897.IP_Host_Type">IP_Host_Type</a>;<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Regular_Name_Length&nbsp; : Natural;<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	User_Info_Length&nbsp;&nbsp;&nbsp;&nbsp; : Natural;<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Default_Port&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : Boolean;<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Path_Length&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : Natural;<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Scheme_Length&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : Positive;<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Query_Length&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : Integer;<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Fragment_Length&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : Integer<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;
+	)&nbsp; <font color="#0000FF">is<br>
+	record</font><br>
+	&nbsp;&nbsp;
+	Scheme&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : String (<font color="#800000">1</font>..Scheme_Length);<br>
+	&nbsp;&nbsp;
+	Hierarchical : <a href="#Strings_Edit.RFC_3897.IP_Hierarchical_Part">
+	IP_Hierarchical_Part</a><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	(&nbsp; Kind_Of&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =&gt; Hierarchical_Kind_Of,<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Authority_Kind_Of&nbsp;&nbsp; =&gt; Authority_Kind_Of,<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Regular_Name_Length =&gt; Regular_Name_Length,<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	User_Info_Length&nbsp;&nbsp;&nbsp; =&gt; User_Info_Length,<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Default_Port&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =&gt; Default_Port,<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Path_Length&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =&gt; Path_Length<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	);<br>
+	&nbsp;&nbsp;
+	Query&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :
+	<a href="#Strings_Edit.RFC_3897.IP_Query">IP_Query</a>&nbsp;&nbsp;&nbsp; (Query_Length);<br>
+	&nbsp;&nbsp;
+	Fragment&nbsp;&nbsp;&nbsp;&nbsp; :
+	<a href="#Strings_Edit.RFC_3897.IP_Fragment">IP_Fragment</a> (Fragment_Length);<br>
+	<font color="#0000FF">end record</font>;</tt></blockquote>
+<P>The <a href="#Strings_Edit.RFC_3897.IRI">IRI</a> consists of scheme, 
+hierarchical part query and fragment. The query type is:</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF"><a name="Strings_Edit.RFC_3897.IP_Query"></a>type</font> 
+	IP_Query (Length : Integer) <font color="#0000FF">is record<br>
+&nbsp;&nbsp; case</font> Length <font color="#0000FF">is<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; when</font> <font color="#800000">0</font>..Integer'Last 
+	=&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Value : String (<font color="#800000">1</font>..Length);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#0000FF">when others</font> =&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#0000FF">null</font>;<br>
+&nbsp;&nbsp; <font color="#0000FF">end case</font>;<br>
+	<font color="#0000FF">end record</font>;</tt></p>
+</BLOCKQUOTE>
+<p>When <i>Length</i> is negative the query is absent, which is different from 
+empty query.</p>
+<BLOCKQUOTE>
+  <p><tt>No_Query : <font color="#0000FF">constant</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Query">IP_Query</a>;<br>
+	<font color="#0000FF">function</font> Create (<b>Query</b> : String)
+	<font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Query">IP_Query</a>;</tt></p>
+</BLOCKQUOTE>
+<P>
+The fragment type is:</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF"><a name="Strings_Edit.RFC_3897.IP_Fragment"></a>
+	type</font> IP_Fragment (Length : Integer) <font color="#0000FF">is record<br>
+&nbsp;&nbsp; case</font> Length <font color="#0000FF">is<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; when</font> <font color="#800000">0</font>..Integer'Last 
+	=&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Value : String (<font color="#800000">1</font>..Length);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#0000FF">when others</font> =&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#0000FF">null</font>;<br>
+&nbsp;&nbsp; <font color="#0000FF">end case</font>;<br>
+	<font color="#0000FF">end record</font>;</tt></p>
+</BLOCKQUOTE>
+<P>When <i>Length</i> is negative the fragment is absent, which is different from 
+empty fragment.</p>
+<BLOCKQUOTE>
+  <p><tt>No_Fragment : <font color="#0000FF">constant</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Fragment">IP_Fragment</a>;<br>
+	<font color="#0000FF">function</font> Create (<b>Fragment</b> : String)
+	<font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IP_Fragment">IP_Fragment</a>;</tt></p>
+</BLOCKQUOTE>
+<P>
+There are two general cases of
+<a href="#Strings_Edit.RFC_3897.IRI">IRI</a>, An
+<a href="#Strings_Edit.RFC_3897.IRI">IRI</a> with authority part that uses <tt>
+://</tt> to separate the scheme. It is constructed using plus (+):</p>
+<BLOCKQUOTE>
+  <p><tt>&quot;<font color="#FF0000">https</font>&quot; + &quot;<font color="#FF0000">www.youtube.com</font>&quot; 
+	/ &quot;<font color="#FF0000">watch</font>&quot; &amp; &quot;<font color="#FF0000">v=7Fz3EhdgKdA</font>&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	-- https://www.youtube.com/watch?v=7Fz3EhdgKdA<br>
+	&quot;<font color="#FF0000">http</font>&quot;&nbsp; + IPv4_Address'(<font color="#800000">192</font>,<font color="#800000">168</font>,<font color="#800000">1</font>,<font color="#800000">3</font>) / 
+	<font color="#800000">80</font> / 
+	&quot;<font color="#FF0000">A</font>&quot; / &quot;<font color="#FF0000">B</font>&quot; &amp; &quot;<font color="#FF0000">C</font>&quot; + &quot;<font color="#FF0000">D</font>&quot; 
+	-- http://192.168.1.3:80/A/B?C#D</tt></p>
+</BLOCKQUOTE>
+<P>
+An
+<a href="#Strings_Edit.RFC_3897.IRI">IRI</a> without the authority part has <tt>
+:/</tt> or single <tt>:</tt> in it. It is constructed using minus (-):</p>
+<blockquote>
+	<P><tt>&quot;<font color="#FF0000">mailto</font>&quot; - &quot;<font color="#FF0000">John.Doe@example.com</font></font>&quot; 
+	-- mailto:/John.Doe@example.com</tt></p>
+</blockquote>
+<P>
+The <a href="#Strings_Edit.RFC_3897.IRI">IRI</a> path is created and extended 
+using slash (<tt>/</tt>). The query part is added and extended using ampersand (<tt>&amp;</tt>). The 
+fraction part is added or extended using plus (+).
+The following subprograms are used to construct
+<a href="#Strings_Edit.RFC_3897.IRI">IRI</a>:</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> &quot;<font color="#FF0000">+</font>&quot; 
+	(<b>Scheme</b> 
+	: String; <b>
+	Hierarchical</b> : <a href="#Strings_Edit.RFC_3897.IP_Hierarchical_Part">
+	IP_Hierarchical_Part</a>) <font color="#0000FF">
+	return</font> <a href="#Strings_Edit.RFC_3897.IRI">IRI</a>;</tt></p>
+</BLOCKQUOTE>
+<P>
+This function creates <a href="#Strings_Edit.RFC_3897.IRI">IRI</a> from scheme 
+and hierarchical part.</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> &quot;<font color="#FF0000">+</font>&quot; 
+	(<b>Scheme</b>&nbsp;: String; <b>
+	Authority</b> : 
+	<a href="#Strings_Edit.RFC_3897.IP_Authority">IP_Authority</a>) <font color="#0000FF">
+	return</font> <a href="#Strings_Edit.RFC_3897.IRI">IRI</a>;</tt></p>
+</BLOCKQUOTE>
+<P>
+This function creates <a href="#Strings_Edit.RFC_3897.IRI">IRI</a> from scheme 
+and authority.</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> &quot;<font color="#FF0000">+</font>&quot; 
+	(<b>Scheme</b> : String; <b>Host</b> : String ) <font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IRI">IRI</a>;<font color="#0000FF"><br>
+	function</font> &quot;<font color="#FF0000">+</font>&quot; 
+	(<b>Scheme</b> : String; <b>Path</b> : 
+	<a href="#Strings_Edit.RFC_3897.IP_Path">IP_Path</a>) <font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IRI">IRI</a>;</tt></p>
+</BLOCKQUOTE>
+<P>
+This function creates <a href="#Strings_Edit.RFC_3897.IRI">IRI</a> with 
+authority from scheme and host or path. For example <tt>https://www.example.com</tt> 
+can be constructed as <tt>&quot;<font color="#FF0000">https</font>&quot; + &quot;<font color="#FF0000">www.example.com</font>&quot;</tt>. </p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> &quot;<font color="#FF0000">-</font>&quot; 
+	(<b>Scheme</b> : String; <b>Path</b> : String ) <font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IRI">IRI</a>;<font color="#0000FF"><br>
+	function</font> &quot;<font color="#FF0000">-</font>&quot; 
+	(<b>Scheme</b> : String; <b>Path</b> : 
+	<a href="#Strings_Edit.RFC_3897.IP_Path">IP_Path</a>) <font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IRI">IRI</a>;</tt></p>
+</BLOCKQUOTE>
+<P>
+This function creates <a href="#Strings_Edit.RFC_3897.IRI">IRI</a> from scheme 
+and path. For example <tt>tel:+1-816-555-1212</tt> can be constructed as <tt>&quot;<font color="#FF0000">tel</font>&quot; 
+- &quot;<font color="#FF0000">+1-816-555-1212</font>&quot;</tt>. Constraint_Error is 
+propagated when path is invalid.</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> &quot;<font color="#FF0000">&amp;</font>&quot; 
+	(<b>ID</b> : <a href="#Strings_Edit.RFC_3897.IRI">IRI</a>; <b>Query</b> 
+	: String&nbsp; ) <font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IRI">IRI</a>;<br>
+	<font color="#0000FF">function</font> &quot;<font color="#FF0000">&amp;</font>&quot; (<b>ID</b> 
+	: <a href="#Strings_Edit.RFC_3897.IRI">IRI</a>; <b>Query</b> :
+	<a href="#Strings_Edit.RFC_3897.IP_Query">IP_Query</a>)
+	<font color="#0000FF">return</font> <a href="#Strings_Edit.RFC_3897.IRI">IRI</a>;</tt></p>
+</BLOCKQUOTE>
+<p>These functions add or extend the query part of
+<a href="#Strings_Edit.RFC_3897.IRI">IRI</a>. For example <tt>http://example.com?query</tt> 
+can be constructed as <tt>&quot;<font color="#FF0000">http</font>&quot; + &quot;<font color="#FF0000">example.com</font>&quot; 
+&amp; &quot;<font color="#FF0000">query</font>&quot;</tt>. </p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> &quot;<font color="#FF0000">+</font>&quot; 
+	(<b>ID</b> : <a href="#Strings_Edit.RFC_3897.IRI">IRI</a>; <b>Fragment</b> 
+	: String&nbsp;&nbsp;&nbsp;&nbsp; ) <font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IRI">IRI</a>;<br>
+	<font color="#0000FF">function</font> &quot;<font color="#FF0000">+</font>&quot; (<b>ID</b> 
+	: <a href="#Strings_Edit.RFC_3897.IRI">IRI</a>; <b>Fragment</b> :
+	<a href="#Strings_Edit.RFC_3897.IP_Fragment">IP_Fragment</a>)
+	<font color="#0000FF">return</font> <a href="#Strings_Edit.RFC_3897.IRI">IRI</a>;</tt></p>
+</BLOCKQUOTE>
+<p>These functions add or extend the fragment part of
+<a href="#Strings_Edit.RFC_3897.IRI">IRI</a>. For example <tt>http://example.com#fragment</tt> 
+can be constructed as <tt>&quot;<font color="#FF0000">http</font>&quot; + &quot;<font color="#FF0000">example.com</font>&quot; 
++ &quot;<font color="#FF0000">fragment</font>&quot;</tt></tt>. </p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF"><a name="Strings_Edit.RFC_3897.Get"></a>function</FONT> Get&nbsp;(<b>Source</b>
+  : String;&nbsp;<b>Pointer</b> : <font color="#0000FF">access</FONT> Integer) <font color="#0000FF">return</font>
+	<a href="#Strings_Edit.RFC_3897.IRI">IRI</a>;</tt></p>
+</BLOCKQUOTE>
+<P>
+This function gets an <a href="#Strings_Edit.RFC_3897.IRI">IRI</a> from <b>Source</b>. The process starts from <b>Source </b>(<b>Pointer</b>.<font color="#0000FF">all</font>). 
+Pointer is advanced after successful completion. Data_Error indicates a syntax error in the 
+<a href="#Strings_Edit.RFC_3897.IRI">IRI</a>. End_Error is raised when
+no <a href="#Strings_Edit.RFC_3897.IRI">IRI</a> was detected. Layout_Error is propagated when
+<b>Pointer</b>.<font color="#0000FF">all</font> is not in the range <b>Source</b>'First
+.. <b>Source</b>'Last + 1. See also description of
+<A href="#Gets">get procedures</A>.</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> Get_Scheme (<b>Source</b> : 
+	String) <font color="#0000FF">return</font> String;<br>
+	<font color="#0000FF">function</font> Get_Scheme (<b>Source</b> : String; <b>
+	Pointer</b> : <font color="#0000FF">access</font> Integer)
+	<font color="#0000FF">return</font> String;</tt></p>
+</BLOCKQUOTE>
+<P>These functions return the <a href="#Strings_Edit.RFC_3897.IRI">IRI</a> 
+scheme. When scheme is not present the result is an empty string. <b>Pointer</b>.<font color="#0000FF">all</font> 
+is advanced after the scheme was successfully recognized. Layout_Error is 
+propagated when <b>Pointer</b> is not in range.</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> Get_Segment (<b>Value</b> :
+	<a href="#Strings_Edit.RFC_3897.IRI">IRI</a>; <b>No</b> : Positive)
+	<font color="#0000FF">return</font> String;</tt></p>
+</BLOCKQUOTE>
+<P>This function returns path segment by its number. Constraint_Error is 
+propagated when there is no such segment.</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> Get_Suffix (<b>Value</b> :
+	<a href="#Strings_Edit.RFC_3897.IRI">IRI</a>)
+	<font color="#0000FF">return</font> <a href="#Strings_Edit.RFC_3897.IP_Path">
+	IP_Path</a>;</tt></p>
+</BLOCKQUOTE>
+<P>This function returns the path without the first segment.</p>
+<BLOCKQUOTE>
+  <p><tt><font color="#0000FF">function</font> Get_Length (<b>Value</b> :
+	<a href="#Strings_Edit.RFC_3897.IRI">IRI</a>)
+	<font color="#0000FF">return </font>Natural;</tt></p>
+</BLOCKQUOTE>
+<p>This function returns the length of path in the hierarchical <b>Value</b>.</p>
+<BLOCKQUOTE>
+  <tt><font color="#0000FF">function</FONT> Image (<b>Value</b><span lang="ru"> </span>:
+	<a href="#Strings_Edit.RFC_3897.IRI">IRI</a>;<span lang="ru">
+	</span><b>Unicode</b> : Boolean := True<span lang="ru">)</span>&nbsp;<font color="#0000FF">return</FONT> String;</tt></BLOCKQUOTE>
+<P>
+This function converts <b>Value</b> to string. The percent format is used when 
+symbols are syntactically illegal. For example space is output as <tt>%20</tt>. it is also used for all characters outside ASCII when
+<b>Unicode</b> is <font color="#800000"><i>false</i></font>.<BLOCKQUOTE>
+  <tt><font color="#0000FF">function</FONT> Is_Scheme (<b>Source</b> : String)
+	<font color="#0000FF">return</font> Boolean;<br>
+	<font color="#0000FF">function</font> Is_Scheme (<b>Source</b> : String; <b>
+	Pointer</b> : Integer) <font color="#0000FF">return</font> Boolean;;</tt></BLOCKQUOTE>
+<P>
+These functions can be used before getting <a href="#Strings_Edit.RFC_3897.IRI">
+IRI</a> to check if an <a href="#Strings_Edit.RFC_3897.IRI">IRI</a> is present. 
+If the result is <i><font color="#800000">true</font></i>, then <b>Source</b> 
+contains scheme at the beginning or else starting at <b>Source</b> (<b>Pointer</b>). 
+Then a consequent call to
+<a href="#Strings_Edit.RFC_3897.Get">Get</a> will not propagate End_Error. 
+Layout_Error is propagated by the second variant when <b>Pointer</b> is not in range.<BLOCKQUOTE>
+  <tt><font color="#0000FF">procedure</FONT> Put<BR>
+  &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;(
+  &nbsp;<b>Destination</b> : <font color="#0000FF">in
+  out</FONT> String;<BR>
+  &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+  &nbsp;&nbsp;<b>Pointer</b>&nbsp; &nbsp;&nbsp; : <font color="#0000FF">in out</FONT> Integer;<BR>
+  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<b>Value</b>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; : 
+	<a href="#Strings_Edit.RFC_3897.IRI">IRI</a>;<b><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Unicode</b>&nbsp;&nbsp;&nbsp;&nbsp; : Boolean&nbsp;&nbsp; := True;<br>
+&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>
+Field</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : Natural&nbsp;&nbsp; :=
+<font color="#800000">0</font>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>
+Justify</b>&nbsp;&nbsp;&nbsp;&nbsp; : Alignment := Left;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Fill</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+: Character := ' '<span lang="ru"><br>
+	</span>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;);</tt></BLOCKQUOTE>
+<P>
+This procedure places the <a href="#Strings_Edit.RFC_3897.IRI">IRI</a> specified by the parameter
+<b>Value</b> into the output string <b>Destination</b>.
+The string is written starting from <b>Destination </b>(<b>Pointer</b>). The 
+percent format is used when symbols are syntactically illegal. For example space 
+is output as <tt>%20</tt>. it is also used for all characters outside ASCII when
+<b>Unicode</b> is <font color="#800000"><i>false</i></font>. The exception Layout_Error is propagated when
+<b>Pointer</b> is not in <b>Destination</b>'Range or there is no room for the 
+output.</p>
+<BLOCKQUOTE>
+  <tt><font color="#0000FF">function</FONT> Value&nbsp;(<b>Source</b>&nbsp;: String) <font color="#0000FF">return</FONT>  
+	<a href="#Strings_Edit.RFC_3897.IRI">IRI</a>;</tt></BLOCKQUOTE>
+<P>
+This function gets an <a href="#Strings_Edit.RFC_3897.IRI">IRI</a> from the string <b>Source</b>. 
+It can be surrounded by spaces and tabs. The whole string
+<b>Source</b> should be matched. Otherwise the exception Data_Error
+is propagated. Also Data_Error indicates a syntax error. End_Error is raised when no
+<a href="#Strings_Edit.RFC_3897.IRI">IRI</a> was detected.</p>
+<hr>
+<p align="right">
+<a name="15"></a><a href="#14"><IMG src="prev.gif" alt="[Back]" width="29" height="29"></a><A href="#18"
+><IMG src="index.gif"
+ alt="[TOC]" width="29" height="29"></A><A href="#16"
+><IMG src="next.gif" alt="[Next]" width="29" height="29"></a></p>
+<H2>15. Packages</H2>
+<TABLE border="5" cellpadding="3" cellspacing="0">
   <TR>
     <TD bgcolor="#008080" colspan="6"><FONT color="#FFFFFF"><B>Package</B></FONT></TD>
     <TD bgcolor="#008080"><FONT color="#FFFFFF"><B>Provides</B></FONT></TD>
@@ -5876,7 +6727,7 @@ without setting another key-nonce pair into the cipher.</p>
     <TD>The basic string I/O</TD>
   </tr>
 	<tr>
-    <TD rowspan="67" bgcolor="#C0C0C0" style="border-right-style: none; border-right-width: medium">&nbsp;&nbsp;&nbsp;&nbsp;<p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+    <TD rowspan="68" bgcolor="#C0C0C0" style="border-right-style: none; border-right-width: medium">&nbsp;&nbsp;&nbsp;&nbsp;<p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
 	&nbsp;&nbsp;&nbsp;&nbsp;</TD>
     <TD colspan="5" style="border-left-style: solid; border-left-width: 1px"><a href="#Strings_Edit.Base64">Base64</a></TD>
     <TD><a href="https://tools.ietf.org/html/rfc4648">RFC 4648</a> implementation</TD>
@@ -5963,6 +6814,11 @@ object identifiers (OID)</TD>
     <TD>I/O of roman numbers</TD>
   </tr>
 	<tr>
+    <TD colspan="5" style="border-left-style: solid; border-left-width: 1px">
+	<a href="#Strings_Edit.RFC_3897">RFC_3897</a></TD>
+    <TD>IP addresses v4 and v6, IRI</TD>
+  </tr>
+	<tr>
     <TD colspan="5" style="border-left-style: solid; border-left-width: 1px"><a href="#Strings_Edit.Streams">Streams</a></TD>
     <TD>Stream I/O to and from strings</TD>
   </tr>
@@ -6021,7 +6877,7 @@ object identifiers (OID)</TD>
       characters</TD>
   </TR>
   <TR>
-    <TD rowspan="37" bgcolor="#C0C0C0" style="border-left-style: none; border-left-width: medium; border-right-style:none; border-right-width:medium">&nbsp;</TD>
+ <TD rowspan="37" bgcolor="#C0C0C0" style="border-left-style: none; border-left-width: medium; borIRIIRIeht-width:medium">&nbsp;</TD>
     <TD colspan="4" style="border-left-style: solid; border-left-width: 1px"><a href="#Strings_Edit.UTF8.Blocks">Blocks</a></TD>
     <TD>Ranges of code points defined by the Unicode standard</TD>
   </TR>
@@ -6204,9 +7060,11 @@ object identifiers (OID)</TD>
   </TABLE>
 <hr>
 <p align="right">
-<a name="15"></a><a href="#14"><IMG src="prev.gif" alt="[Back]" width="29" height="29"></a><a href="#17"><IMG src="index.gif"
- alt="[TOC]" width="29" height="29"></a><a href="#16"><IMG src="next.gif" alt="[Next]" width="29" height="29"></a></p>
-<H2>15. Installation</H2><P>
+<a name="16"5555/a><a href="#15"><IMG src="prev.gif" alt="[Back]" width="29" height="29"></a><A href="#18"
+><IMG src="index.gif"
+ alt="[TOC]" width="29" height="29"></a><A href="#17"
+><IMG src="next.gif" alt="[Next]" width="29" height="29"></a></p>
+<H2>16. Installation</H2><P>
 <p>The software does not require special installation. The archive's content can be 
 put in a directory and used as-is. For users of <a href="http://libre.adacore.com/libre/">GNAT compiler</a> 
 the software provides gpr project files, which can be used in the
@@ -6259,7 +7117,8 @@ with <i>Object_Dir</i> when compiled for multiple architectures:</p>
 	</ul>
 <hr>
 <P align="right">
-<A name="16"></A><a href="#15"><IMG src="prev.gif" alt="[Back]" width="29" height="29"></a><A href="#17"><IMG src="index.gif" alt="[TOC]" width="29" height="29"><IMG src="next.gif" alt="[Next]" width="29" height="29"></A><H2>16.
+<A name="17"></A><a href="#16"><IMG src="prev.gif" alt="[Back]" width="29" height="29"></a><A href="#18"
+><IMG src="index.gif" alt="[TOC]" width="29" height="29"><IMG src="next.gif" alt="[Next]" width="29" height="29"></A><H2>17.
 <a name="changes_log"></a>Changes log</H2>
 <P>
 <i>
@@ -6273,6 +7132,15 @@ The following versions were tested with the compilers:</i>
 <i>GNAT Community 2018 (20180523-73)</i></li>
 	<li><i>GNAT 8-12</i></li>
   </ul>
+<P>
+Changes (29 March 2026) to the version 3.10:<ul>
+	<li>The Size functions were added to Strings_Edit.UTF8 to calculate the 
+	length of UTF-8 encoding of a code point or an array of;</li>
+	<li>The package Strings_Edit.RFC_3897 was added to handle IP addresses v4 
+	and v6 as well as IRI (Internationalized Resource Identifier).<span lang="ru">
+	</span>IRI is an extension of URI (Uniform Resource Identifier) and URL 
+	(Uniform Resource Locator) that supports Unicode.</li>
+	</ul>
 <P>
 Changes (4 December 2025) to the version 3.9:<ul>
 	<li>Function Compare to compare arrays of code points was added to the 
@@ -6527,8 +7395,10 @@ The reason was to reuse a preinstantiated version of Integer_Edit within Float_E
 </UL>
   <hr>
 <H2 align="right">
-  <A name="17"></A><a href="#16"><IMG src="prev.gif" alt="[Back]" width="29" height="29"></a><A href="#17"><IMG src="index.gif" alt="[TOC]" width="29" height="29"></A></H2>
-<H2>17. Table of Contents</H2>
+  <A name="18"></A><A href="#17"
+><IMG src="prev.gif" alt="[Back]" width="29" height="29"></a><A href="#18"
+><IMG src="index.gif" alt="[TOC]" width="29" height="29"></A></H2>
+<H2>18. Table of Contents</H2>
 <table border="0" cellpadding="0" cellspacing="20">
 	<tr>
 		<td valign="top">
@@ -6561,11 +7431,13 @@ The reason was to reuse a preinstantiated version of Integer_Edit within Float_E
 &nbsp;&nbsp;&nbsp; <A href="#7.10
 ">7.10. Sets and maps</A><BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A href="#7.10
-.1">7.10.1. Sets</A><BR>
+.1">7.10.1. Sets</A><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A href="#7.10
 .2">7.10.2. Maps</A><BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A href="#7.10
-.3">7.10.3. Constants</A><BR>
+</td>
+<td valign="top">
+&nbsp;&nbsp;&nbsp; <A href="#7.10
+.3">7.10.3. Constants</A><br>
 &nbsp;&nbsp;&nbsp; <A href="#7.11
 ">7.11. 8-bit encodings</A><BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A href="#7.11
@@ -6575,11 +7447,11 @@ The reason was to reuse a preinstantiated version of Integer_Edit within Float_E
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A href="#7.11
 .3">7.11.3. Windows-1252</A><BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A href="#7.11
-.4">7.11.4. Windows-1253</A><BR>
+.4">7.11.4. Windows-1253</A><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A href="#7.11
 .5">7.11.5. Windows-1254</A><BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A href="#7.11
-.6">7.11.6. Windows-1255</A><BR>
+.6">7.11.6. Windows-1255</A><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A href="#7.11
 .7">7.11.7. Windows-1256</A><BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A href="#7.11
@@ -6589,9 +7461,7 @@ The reason was to reuse a preinstantiated version of Integer_Edit within Float_E
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A href="#7.11
 .10">7.11.10. KOI8</A><BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A href="#7.11
-.11">7.11.11. ISO/IEC 8859-2</A><BR>
-</td>
-<td valign="top">
+.11">7.11.11. ISO/IEC 8859-2</A><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A href="#7.11
 .12">7.11.12. ISO/IEC 8859-3</A><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A href="#7.11
@@ -6619,27 +7489,42 @@ The reason was to reuse a preinstantiated version of Integer_Edit within Float_E
 <b><big><big>8</big></big></b>&nbsp;<A href="#8"><big>Fields</big></A><HR>
 <b><big><big>9</big></big></b>&nbsp;<A href="#9"><big>Generic axis scales</big></A><hr>
 <b><big><big>10</big></big></b>&nbsp;<A href="#10"><big>String streams</big></A><br>
-&nbsp;&nbsp;&nbsp; <A href="#10.1">10.1. Signed integers stream I/O</A><BR>
+&nbsp;&nbsp;&nbsp; <A href="#10.1">10.1. Signed integers stream I/O</A><br>
 &nbsp;&nbsp;&nbsp; <A href="#10.2">10.2. Unsigned integers stream I/O</A><br>
 &nbsp;&nbsp;&nbsp; <A href="#10.3">10.3. Modular numbers stream I/O</A><br>
-&nbsp;&nbsp;&nbsp; <A href="#10.4">10.4. Recoding UTF-8 streams</A><HR>
-<b><big><big>11</big></big></b> <A href="#11"><big>Lexicographical comparisons</big></A><hr>
+&nbsp;&nbsp;&nbsp; <A href="#10.4">10.4. Recoding UTF-8 streams</A></td>
+<td valign="top">
+<b><big><big>11</big></big></b> <A href="#11"><big>Lexicographical comparisons</big></A>
+<hr>
 <b><big><big>12</big></big></b> <big><A href="#12">Standard encodings</A></big><br>
 &nbsp;&nbsp;&nbsp; <a href="#12.1">12.1. Base64 encoding</a><BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A href="#12.1.1">12.1.1. Encoding stream</A><BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A href="#12.1.2">12.1.2. Decoding stream</A><BR>
-&nbsp;&nbsp;&nbsp; <a href="#12.2">12.2. Object identifiers</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A href="#12.1.2">12.1.2. Decoding stream</A>&nbsp;&nbsp;&nbsp; <a href="#12.2">12.2. Object identifiers</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#12.3">12.3. Distinguished names</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#12.3.1">12.3.1. Construction of distinguished names</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#12.4">12.4. ISO 8601 time and duration</a><hr>
 <b><big><big>13</big></big></b> <big><A href="#13">ChaCha20 cipher</A></big><br>
 &nbsp;&nbsp;&nbsp; <a href="#13.1">13.1. ChaCha20 ciphering streams</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#13.2">13.2. Poly1305 digests</a><br>
-&nbsp;&nbsp;&nbsp; <a href="#13.3">13.3. AEAD</a><hr>
-<b><big><big>14</big></big></b> <A href="#14"><big>Packages</big></A><hr>
-<b><big><big>15</big></big></b> <A href="#15"><big>Installation</big></A><HR>
-<b><big><big>16</big></big></b> <A href="#16"><big>Changes log</big></A><hr>
-<b><big><big>17</big></big></b> <A href="#17"><big>Table of contents</big></A></td>
-	</tr>
+&nbsp;&nbsp;&nbsp; <a href="#13.3">13.3. AEAD</a>
+<hr>
+<b><big><big>14</big></big></b> <big><a href="#14">RFC 3897 (Internationalized 
+Resource Identifiers)</a></big><br>
+&nbsp;&nbsp; <a href="#14.1">14.1. IPv4 address</a><br>
+&nbsp;&nbsp; <a href="#14.2">14.2. IPv6 address</a><br>
+&nbsp;&nbsp; <a href="#14.3">14.3. IP host</a><br>
+&nbsp;&nbsp; <a href="#14.4">14.4. IP path</a><br>
+&nbsp;&nbsp; <a href="#14.5">14.5. IP authority</a><br>
+&nbsp;&nbsp; <a href="#14.6">14.6. IP hierarchical part</a><br>
+&nbsp;&nbsp; <a href="#14.7">14.7. IRI (Internationalized Resource Identifiers)</a><hr>
+<b><big><big>15</big></big></b> <A href="#15"
+><big>Packages</big></A><hr>
+<b><big><big>16</big></big></b> <A href="#16"
+><big>Installation</big></A><HR>
+<b><big><big>17</big></big></b> <A href="#17"
+><big>Changes log</big></A><hr>
+<b><big><big>18</big></big></b> <A href="#18"
+><big>Table of contents</big></A></td>
+	</tr>	
 </table>
 </BODY></HTML>

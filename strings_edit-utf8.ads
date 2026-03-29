@@ -3,7 +3,7 @@
 --  Interface                                      Luebeck            --
 --                                                 Spring, 2005       --
 --                                                                    --
---                                Last revision :  21:44 03 Feb 2026  --
+--                                Last revision :  12:14 29 Mar 2026  --
 --                                                                    --
 --  This  library  is  free software; you can redistribute it and/or  --
 --  modify it under the terms of the GNU General Public  License  as  --
@@ -140,6 +140,17 @@ package Strings_Edit.UTF8 is
 --    Data_Error - Invalid string
 --
    function Length (Source : String) return Natural;
+--
+-- Size -- The size of an UTF-8 encoded string
+--
+--    Value - The point or an array of
+--
+-- Returns :
+--
+--    The size of UTF-8 encoded representation
+--
+   function Size (Value : UTF8_Code_Point      ) return Positive;
+   function Size (Value : UTF8_Code_Point_Array) return Natural;
 --
 -- Skip -- Skip an UTF-8 code point
 --

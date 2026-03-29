@@ -3,7 +3,7 @@
 --  Implementation                                 Luebeck            --
 --                                                 Spring, 2005       --
 --                                                                    --
---                                Last revision :  21:44 03 Feb 2026  --
+--                                Last revision :  12:14 29 Mar 2026  --
 --                                                                    --
 --  This  library  is  free software; you can redistribute it and/or  --
 --  modify it under the terms of the GNU General Public  License  as  --
@@ -305,6 +305,27 @@ package body Strings_Edit.UTF8 is
          Pointer := Pointer - 1;
       end loop;
    end Reverse_Put;
+
+   function Size (Value : UTF8_Code_Point) return Positive is
+      Result  : String (1..4);
+      Pointer : Integer := Result'First;
+   begin
+      Put (Result, Pointer, Value);
+      return Pointer - 1;
+   end Size;
+
+   function Size (Value : UTF8_Code_Point_Array) return Natural is
+      Count   : Natural := 0;
+      Result  : String (1..4);
+      Pointer : Integer;
+   begin
+      for Index in Value'Range loop
+         Pointer := Result'First;
+         Put (Result, Pointer, Value (Index));
+         Count := Count + Pointer - 1;
+      end loop;
+      return Count;
+   end Size;
 
    procedure Skip
              (  Source  : String;

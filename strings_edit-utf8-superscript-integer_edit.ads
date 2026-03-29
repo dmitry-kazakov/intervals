@@ -3,7 +3,7 @@
 --     Strings_Edit.UTF8.                          Luebeck            --
 --        Superscript.Integer_Edit                 Spring, 2005       --
 --  Interface                                                         --
---                                Last revision :  21:03 21 Apr 2009  --
+--                                Last revision :  12:14 29 Mar 2026  --
 --                                                                    --
 --  This  library  is  free software; you can redistribute it and/or  --
 --  modify it under the terms of the GNU General Public  License  as  --
