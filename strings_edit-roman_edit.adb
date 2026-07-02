@@ -3,7 +3,7 @@
 --     Strings_Edit.Roman_Edit                     Luebeck            --
 --  Implementation                                 Spring, 2002       --
 --                                                                    --
---                                Last revision :  21:03 21 Apr 2009  --
+--                                Last revision :  10:47 02 Jul 2026  --
 --                                                                    --
 --  This  library  is  free software; you can redistribute it and/or  --
 --  modify it under the terms of the GNU General Public  License  as  --
@@ -150,7 +150,7 @@ package body Strings_Edit.Roman_Edit is
              (  Destination : in out String;
                 Pointer     : in out Integer;
                 Value       : in Roman;
-	        LowerCase   : in Boolean := False;
+                LowerCase   : in Boolean := False;
                 Field       : in Natural := 0;
                 Justify     : in Alignment := Left;
                 Fill        : in Character := ' '

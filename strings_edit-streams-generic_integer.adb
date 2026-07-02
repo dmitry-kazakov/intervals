@@ -3,7 +3,7 @@
 --     Strings_Edit.Streams.                       Luebeck            --
 --        Generic_Integer                          Autumn, 2014       --
 --  Implementation                                                    --
---                                Last revision :  10:13 29 Nov 2020  --
+--                                Last revision :  10:47 02 Jul 2026  --
 --                                                                    --
 --  This  library  is  free software; you can redistribute it and/or  --
 --  modify it under the terms of the GNU General Public  License  as  --
@@ -106,7 +106,6 @@ package body Strings_Edit.Streams.Generic_Integer is
             (  Stream : access Root_Stream_Type'Class
             )  return Number is
       Result   : Number  := 0;
-      Old      : Number  := 0;
       Power    : Natural := 6;
       Negative : Boolean;
       Buffer   : Stream_Element_Array (1..1);
